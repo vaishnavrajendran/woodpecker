@@ -13,7 +13,7 @@ const { render } = require('../routes/userRoute');
 let isLoggedin
 isLoggedin = false;
 let sess = false || {};
-let userSession;
+
 let USERID, randomOTP;
 
 let coupon = {
@@ -186,7 +186,7 @@ const userPostRegister = async (req, res) => {
                     isAdmin: 0
                 });
                 const userData = await user.save();
-                USERID = userData._id;
+                req.session.userid = userData._id;
                 if (userData) {
                     sendMessage(req.body.mno)
                     res.render('otp')
