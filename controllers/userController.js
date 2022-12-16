@@ -461,7 +461,7 @@ const postCheckout = async (req, res) => {
         await Order.findOneAndUpdate({ userID: userSession.userId }, { status: 'billed' })
         const orderData = await Order.findOne({ userID: userSession.userId }).populate('product.productID')
         const forTotal = await Order.findOne({ userID: userSession.userId })
-        res.render('orderplaced', { cart: orderData.product, totalprice: userSession.couponTotal })
+        res.render('orderPlaced', { cart: orderData.product, totalprice: userSession.couponTotal })
     } else if (req.body.payment == 'paypal') {
         res.redirect('/paypal')
     }
