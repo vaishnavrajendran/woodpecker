@@ -187,6 +187,7 @@ const userPostRegister = async (req, res) => {
                 });
                 const userData = await user.save();
                 req.session.userId = userData._id;
+                USERID = userData._id;
                 if (userData) {
                     sendMessage(req.body.mno)
                     res.render('otp')
