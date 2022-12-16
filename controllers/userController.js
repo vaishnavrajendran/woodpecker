@@ -295,7 +295,7 @@ const addToWishlist = async (req, res) => {
                 //     {$inc:{'product.$.quantity':1}})
                 res.redirect('/');
             } else {
-                const addItem = await Wishlist.updateOne({ userID: req.session.userid },
+                const addItem = await Wishlist.updateOne({ userID: req.session.userId },
                     { $push: { product: { 'productID': productId } } })
                 res.redirect('/');
             }
@@ -356,7 +356,7 @@ const addToCart = async (req, res, next) => {
                 res.redirect('/')
 
             } else {
-                const pushQuantity = await Cart.updateOne({ userID: req.session.userid },
+                const pushQuantity = await Cart.updateOne({ userID: req.session.userId },
                     { $push: { product: { 'productID': productId, 'quantity': 1 } } })
                 res.redirect('/');
 
@@ -456,6 +456,7 @@ const postCheckout = async (req, res) => {
         offer: req.session.coupon.name
     })
     await orders.save()
+    console.log(req.session.couponTotal);
     const userCoupon = await Coupon.updateOne({ name: req.session.coupon.name }, { $push: { usedBy: req.session.userId } })
     if (req.body.payment == 'cod') {
         await Order.findOneAndUpdate({ userID: req.session.userId }, { status: 'billed' })
@@ -492,8 +493,9 @@ const orderDetails = async (req, res) => {
     // userSession = req.session
     const orderId = req.query.id
     cartDetails = await Order.findOne({ _id: orderId }).populate('product.productID')
-    forTotal = await Order.findOne({ _id: orderId })
-    res.render('orderDetails', { cart: cartDetails.product, totalPrice: forTotal })
+    // forTotal = await Order.findOne({ _id: orderId })
+    console.log(req.session.couponTotal);
+    res.render('orderDetails', { cart: cartDetails.product, totalPrice:req.session.couponTotal })
 }
 
 const sendMessage = function (mobile, res) {
