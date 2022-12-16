@@ -151,7 +151,7 @@ const userPostLogin = async (req, res) => {
                 res.render('login', { message: "Please verify your mail" });
             } else {
                 try {
-                    req.session.userid = userData._id;
+                    req.session.userId = userData._id;
                     // userSession = req.session
                     // userSession.userId = userData._id;
                     isLoggedin = true;
@@ -186,7 +186,7 @@ const userPostRegister = async (req, res) => {
                     isAdmin: 0
                 });
                 const userData = await user.save();
-                req.session.userid = userData._id;
+                req.session.userId = userData._id;
                 if (userData) {
                     sendMessage(req.body.mno)
                     res.render('otp')
