@@ -48,13 +48,13 @@ const userLogin = (req, res) => {
 const userIndex = async (req, res) => {
     try {
 
-        userSession = req.session;
+        // userSession = req.session;
         if (req.session.coupon) {
 
         } else {
-            userSession.coupon = coupon;
-            userSession.couponTotal = couponTotal
-        } console.log('index', userSession);
+            req.session.coupon = coupon;
+            req.session.couponTotal = couponTotal
+        } console.log('index');
 
         let search = '';
         if (req.query.search) {
@@ -152,8 +152,8 @@ const userPostLogin = async (req, res) => {
             } else {
                 try {
                     req.session.userid = userData._id;
-                    userSession = req.session
-                    userSession.userId = userData._id;
+                    // userSession = req.session
+                    // userSession.userId = userData._id;
                     isLoggedin = true;
                     res.redirect('/');
                 } catch (error) {
@@ -215,31 +215,31 @@ const userLogout = (req, res) => {
 
 const userCart = async (req, res) => {
     try {
-        userSession = req.session;
+        // userSession = req.session;
         ship = 10;
         const cartFetch = await Cart.findOne(
-            { userID: userSession.userId }).populate('product.productID')
+            { userID: req.session.userId }).populate('product.productID')
         if (cartFetch) {
-            productData = await Cart.findOne({ userID: userSession.userId }).populate('product.productID');
+            productData = await Cart.findOne({ userID: req.session.userId }).populate('product.productID');
             const totalPrice = productData.product.reduce((acc, curr) => {
                 return acc + (curr.productID.price * curr.quantity)
             }, 0);
             productData.totalPrice = totalPrice;
             await productData.save();
-            if (userSession.couponTotal < productData.totalPrice && userSession.couponTotal != 0 && userSession.coupon.used == 1) {
-                userSession.coupon.used = 0;
-                res.render('cart', { isLoggedin, cart: cartFetch.product, totalCart: userSession.couponTotal, shipping: ship })
-            } else if (userSession.couponTotal == 0) {
-                userSession.couponTotal = productData.totalPrice;
-                res.render('cart', { isLoggedin, cart: cartFetch.product, totalCart: userSession.couponTotal, shipping: ship })
+            if (req.session.couponTotal < productData.totalPrice && req.session.couponTotal != 0 && req.session.coupon.used == 1) {
+                req.session.coupon.used = 0;
+                res.render('cart', { isLoggedin, cart: cartFetch.product, totalCart: req.session.couponTotal, shipping: ship })
+            } else if (req.session.couponTotal == 0) {
+                req.session.couponTotal = productData.totalPrice;
+                res.render('cart', { isLoggedin, cart: cartFetch.product, totalCart: req.session.couponTotal, shipping: ship })
             } else {
-                userSession.couponTotal = productData.totalPrice;
-                console.log('userr', userSession.couponTotal);
-                res.render('cart', { isLoggedin, cart: cartFetch.product, totalCart: userSession.couponTotal, shipping: ship })
+                req.session.couponTotal = productData.totalPrice;
+                console.log('userr', req.session.couponTotal);
+                res.render('cart', { isLoggedin, cart: cartFetch.product, totalCart: req.session.couponTotal, shipping: ship })
             }
         } else {
             console.log('none');
-            res.render('cart', { isLoggedin, cart: '', totalCart: userSession.couponTotal, shipping: ship })
+            res.render('cart', { isLoggedin, cart: '', totalCart: req.session.couponTotal, shipping: ship })
         }
 
     } catch (error) {
@@ -249,23 +249,23 @@ const userCart = async (req, res) => {
 
 const updateQuantity = async (req, res) => {
     Id = req.query.id;
-    userSession = req.session;
+    // userSession = req.session;
     qty = req.body.quantity;
     console.log(qty);
-    productData = await Cart.findOne({ userID: userSession.userId }).populate('product.productID');
+    productData = await Cart.findOne({ userID: req.session.userId }).populate('product.productID');
     indexNum = await productData.product.findIndex(index => index._id == Id);
     productData.product[indexNum].quantity = qty;
     await productData.save();
-    const forTotal = await Cart.findOne({ userID: userSession.userId })
+    const forTotal = await Cart.findOne({ userID:req.session.userId })
     forTotal.totalPrice = 0;
     res.redirect('/cart');
 }
 
 const wishlist = async (req, res) => {
     try {
-        userSession = req.session;
+        // userSession = req.session;
         const fetchWishlist = await Wishlist.findOne(
-            { userID: userSession.userId }).populate('product.productID')
+            { userID: req.session.userId }).populate('product.productID')
         if (fetchWishlist) {
             res.render('wishlist', { isLoggedin, wishlist: fetchWishlist.product })
         } else {
@@ -281,11 +281,11 @@ const wishlist = async (req, res) => {
 const addToWishlist = async (req, res) => {
     try {
         const productId = req.query.id
-        userSession = req.session
-        const checkWishlist = await Wishlist.findOne({ userID: userSession.userId })
+        // userSession = req.session
+        const checkWishlist = await Wishlist.findOne({ userID: req.session.userId })
         if (checkWishlist != null) {
             const prodCheck = await Wishlist.findOne({
-                userID: userSession.userId,
+                userID: req.session.userId,
                 'product.productID': productId
             });
             if (prodCheck != null) {
@@ -295,14 +295,14 @@ const addToWishlist = async (req, res) => {
                 //     {$inc:{'product.$.quantity':1}})
                 res.redirect('/');
             } else {
-                const addItem = await Wishlist.updateOne({ userID: userSession.userid },
+                const addItem = await Wishlist.updateOne({ userID: req.session.userid },
                     { $push: { product: { 'productID': productId } } })
                 res.redirect('/');
             }
         }
         else {
             const wishlist = new Wishlist({
-                userID: userSession.userId,
+                userID: req.session.userId,
                 product: [{
                     productID: productId
                 }]
@@ -317,12 +317,12 @@ const addToWishlist = async (req, res) => {
 
 const userCheckout = async (req, res) => {
     try {
-        userSession = req.session;
+        // userSession = req.session;
         ship = 10;
         // const forTotal = await Cart.findOne({userID:userSession.userId})
         const cartFetch = await Cart.findOne(
-            { userID: userSession.userId }).populate('product.productID')
-        res.render('checkout', { isLoggedin, cart: cartFetch.product, cartTotal: userSession.couponTotal, shipping: ship })
+            { userID: req.session.userId }).populate('product.productID')
+        res.render('checkout', { isLoggedin, cart: cartFetch.product, cartTotal: req.session.couponTotal, shipping: ship })
     } catch (error) {
         console.log(error.message);
     }
@@ -339,24 +339,24 @@ const userContact = (req, res) => {
 const addToCart = async (req, res, next) => {
     try {
         const productId = req.query.id
-        userSession = req.session
-        const checkCart = await Cart.findOne({ userID: userSession.userId })
+        // userSession = req.session
+        const checkCart = await Cart.findOne({ userID: req.session.userId })
         if (checkCart != null) {
             const prodCheck = await Cart.findOne({
-                userID: userSession.userId,
+                userID: req.session.userId,
                 'product.productID': productId
             });
 
             if (prodCheck != null) {
                 const increaseQuantity = await Cart.updateOne({
-                    userID: userSession.userId,
+                    userID: req.session.userId,
                     'product.productID': productId
                 },
                     { $inc: { 'product.$.quantity': 1 } })
                 res.redirect('/')
 
             } else {
-                const pushQuantity = await Cart.updateOne({ userID: userSession.userid },
+                const pushQuantity = await Cart.updateOne({ userID: req.session.userid },
                     { $push: { product: { 'productID': productId, 'quantity': 1 } } })
                 res.redirect('/');
 
@@ -364,7 +364,7 @@ const addToCart = async (req, res, next) => {
         }
         else {
             const cart = new Cart({
-                userID: userSession.userId,
+                userID: req.session.userId,
                 product: [{
                     productID: productId,
                     quantity: 1
@@ -382,8 +382,8 @@ const addToCart = async (req, res, next) => {
 
 const deleteWishlist = async (req, res, next) => {
     cartProdId = req.query.id;
-    userSession = req.session;
-    const userWishlist = await Wishlist.findOne({ userID: userSession.userId })
+    // userSession = req.session;
+    const userWishlist = await Wishlist.findOne({ userID: req.session.userId })
     if (userWishlist) {
         const findProdIndex = await userWishlist.product
             .findIndex(wishlistItems => wishlistItems._id == cartProdId)
@@ -398,7 +398,7 @@ const deleteWishlist = async (req, res, next) => {
 const userDeleteWishlist = async (req, res) => {
     userSession = req.session
     delId = req.query.id;
-    const userWishlist = await Wishlist.findOne({ userID: userSession.userId })
+    const userWishlist = await Wishlist.findOne({ userID: req.session.userId })
     console.log(userWishlist);
     if (userWishlist) {
         const findProdIndex = await userWishlist.product
@@ -411,8 +411,8 @@ const userDeleteWishlist = async (req, res) => {
 
 const deleteCart = async (req, res) => {
     cartProdId = req.query.id;
-    userSession = req.session;
-    const userCart = await Cart.findOne({ userID: userSession.userId })
+    // userSession = req.session;
+    const userCart = await Cart.findOne({ userID: req.session.userId })
     console.log('userCart', userCart);
     const findProdIndex = await userCart.product
         .findIndex(cartItems => cartItems._id == cartProdId);
@@ -435,11 +435,11 @@ const viewDetail = async (req, res) => {
 }
 
 const postCheckout = async (req, res) => {
-    userSession = req.session
-    const cartData = await Cart.findOne({ userID: userSession.userId })
-    console.log(userSession.couponTotal);
+    // userSession = req.session
+    const cartData = await Cart.findOne({ userID: req.session.userId })
+    console.log(req.session.couponTotal);
     const orders = new Order({
-        userID: userSession.userId,
+        userID: req.session.userId,
         fname: req.body.fname,
         lname: req.body.lname,
         email: req.body.email,
@@ -452,44 +452,44 @@ const postCheckout = async (req, res) => {
         zip: req.body.zip,
         payment: req.body.payment,
         product: cartData.product,
-        totalPrice: userSession.couponTotal,
-        offer: userSession.coupon.name
+        totalPrice: req.session.couponTotal,
+        offer: req.session.coupon.name
     })
     await orders.save()
-    const userCoupon = await Coupon.updateOne({ name: userSession.coupon.name }, { $push: { usedBy: req.session.userId } })
+    const userCoupon = await Coupon.updateOne({ name: req.session.coupon.name }, { $push: { usedBy: req.session.userId } })
     if (req.body.payment == 'cod') {
-        await Order.findOneAndUpdate({ userID: userSession.userId }, { status: 'billed' })
-        const orderData = await Order.findOne({ userID: userSession.userId }).populate('product.productID')
-        const forTotal = await Order.findOne({ userID: userSession.userId })
-        res.render('orderPlaced', { cart: orderData.product, totalprice: userSession.couponTotal })
+        await Order.findOneAndUpdate({ userID: req.session.userId }, { status: 'billed' })
+        const orderData = await Order.findOne({ userID: req.session.userId }).populate('product.productID')
+        const forTotal = await Order.findOne({ userID: req.session.userId })
+        res.render('orderPlaced', { cart: orderData.product, totalprice: req.session.couponTotal })
     } else if (req.body.payment == 'paypal') {
         res.redirect('/paypal')
     }
 }
 
 const ordersuccesful = async (req, res) => {
-    userSession = req.session
-    const orderData = await Order.findOne({ userID: userSession.userId }).populate('product.productID')
-    const forTotal = await Order.findOne({ userID: userSession.userId })
-    res.render('orderplaced', { cart: orderData.product, totalprice: userSession.couponTotal })
+    // userSession = req.session
+    const orderData = await Order.findOne({ userID: req.session.userId }).populate('product.productID')
+    const forTotal = await Order.findOne({ userID: req.session.userId })
+    res.render('orderplaced', { cart: orderData.product, totalprice: req.session.couponTotal })
 }
 
 const paypal = async (req, res) => {
-    userSession = req.session
-    const orderData = await Order.findOne({ userID: userSession.userId })
-    res.render('paypal', { total:userSession.couponTotal  })
+    // userSession = req.session
+    const orderData = await Order.findOne({ userID: req.session.userId })
+    res.render('paypal', { total:req.session.couponTotal  })
 }
 
 const userDashboard = async (req, res) => {
-    userSession = req.session
-    productDetails = await Product.find({ _id: userSession.userId })
-    userDetails = await User.find({ _id: userSession.userId })
-    orderDetail = await checkoutModel.find({ userID: userSession.userId })
+    // userSession = req.session
+    productDetails = await Product.find({ _id: req.session.userId })
+    userDetails = await User.find({ _id: req.session.userId })
+    orderDetail = await checkoutModel.find({ userID: req.session.userId })
     res.render('userDashboard', { isLoggedin, order: orderDetail, user: userDetails, product: productDetails })
 }
 
 const orderDetails = async (req, res) => {
-    userSession = req.session
+    // userSession = req.session
     const orderId = req.query.id
     cartDetails = await Order.findOne({ _id: orderId }).populate('product.productID')
     forTotal = await Order.findOne({ _id: orderId })
@@ -536,23 +536,23 @@ const selCategories = async (req, res) => {
 
 const addCoupon = async (req, res) => {
     try {
-        userSession = req.session;
+        // userSession = req.session;
         couponApplied = req.query.offer;
-        if (userSession.userId) {
-            userData = await User.findById({ _id: userSession.userId });
+        if (req.session.userId) {
+            userData = await User.findById({ _id: req.session.userId });
             offerData = await Coupon.findOne({ name: couponApplied });
             if (offerData) {
-                if (offerData.usedBy != userSession.userId) {
-                    userSession.coupon.name = offerData.name;
-                    userSession.coupon.type = offerData.type;
-                    userSession.coupon.offer = offerData.offer;
-                    userSession.coupon.used = 1;
-                    fetchCart = await Cart.findOne({ userID: userSession.userId });
-                    const updatedPrice = fetchCart.totalPrice - ((fetchCart.totalPrice * userSession.coupon.offer) / 100);
-                    userSession.couponTotal = updatedPrice;
+                if (offerData.usedBy != req.session.userId) {
+                    req.session.coupon.name = offerData.name;
+                    req.session.coupon.type = offerData.type;
+                    req.session.coupon.offer = offerData.offer;
+                    req.session.coupon.used = 1;
+                    fetchCart = await Cart.findOne({ userID: req.session.userId });
+                    const updatedPrice = fetchCart.totalPrice - ((fetchCart.totalPrice * req.session.coupon.offer) / 100);
+                    req.session.couponTotal = updatedPrice;
                     res.redirect('/cart')
                 } else {
-                    userSession.coupon.usedBy = true;
+                    req.session.coupon.usedBy = true;
                     res.redirect('/cart');
                 }
             } else {
