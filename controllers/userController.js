@@ -125,7 +125,7 @@ const userDetail = async (req, res) => {
     try {
         proID: req.query.id;
         const productDetails = await Product.find({ _id: proID })
-        res.render('detail', { isLoggedin, product: productDetails })
+        res.render('detail', { isLoggedin:req.session.userId, product: productDetails })
     } catch (error) {
         error.message
     }
@@ -154,7 +154,7 @@ const userPostLogin = async (req, res) => {
                     req.session.userId = userData._id;
                     // userSession = req.session
                     // userSession.userId = userData._id;
-                    isLoggedin = true;
+                    isLoggedin = req.session.userId;
                     res.redirect('/');
                 } catch (error) {
                     console.log(error.message);
@@ -191,7 +191,7 @@ const userPostRegister = async (req, res) => {
                 if (userData) {
                     sendMessage(req.body.mno)
                     res.render('otp')
-                    isLoggedin = true;
+                    isLoggedin = req.session.userId;
                 } else {
                     res.render('registration', { message: "Your registration has been failed" })
                 }
