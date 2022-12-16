@@ -73,7 +73,7 @@
                                                         const captureOrderHandler = (details) => {
                                                             const payerName = details.payer.name.given_name;
                                                             console.log('Transaction completed');
-                                                            window.location.replace("http://localhost:3000/orderPlaced")
+                                                            window.location.replace("http://thewoodpecker.shop/orderPlaced")
                                                         };
 
                                                         return actions.order.capture().then(captureOrderHandler);
