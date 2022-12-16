@@ -1,0 +1,76 @@
+<html lang="en">
+
+<head>
+   <!-- Meta tags -->
+   <meta charset="utf-8">
+   <meta name="viewport" content="width = device-width, initial-scale = 1, shrink-to-fit = no">
+   <link href="img/titleicon1.png" rel="icon">
+   <!-- Bootstrap CSS -->
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+      integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+   <title style="color:rgb(121, 35, 49);">Edit Product</title>
+</head>
+   
+<body>
+   <div class="container">
+      <form action="/admin/editProduct" method="post" enctype="multipart/form-data">
+         <h2 class="align-items-center" style="color: rgb(127, 6, 26);">EShopper</h2>
+         <!-- <div class = "form-row"> -->
+         <div class="form-group col-md-6 ">
+            <% if(typeof message !=='undefined' ){ %>
+               <p style="color: green;">
+                  <%= message %>
+               </p>
+               <%}%>
+                  <label for="pname">Product Name</label>
+                  <input name="pname" type="text" class=" form-control" placeholder="Product Name" value="<%= product.pname %>">
+         </div>
+
+         <div class="form-group col-md-6">
+            <label for="pprice">Product Price</label>
+            <input name="pprice" type="text" value="<%= product.pprice %>" class="form-control" placeholder="Product Price">
+         </div>
+         <!-- </div> -->
+
+         <div class="form-group col-md-6">
+            <label for="">Product Description</label>
+            <input name="pdesc" type="text" value="<%= product.pdesc %>" class=" form-control" placeholder="Product Description">
+         </div>
+         <div class="form-group col-md-6">
+            <label for="">Product Image</label>
+            <input name="pimage" type="file" value="<%= product.pimage %>" class=" form-control" placeholder="Product Image">
+         </div>
+
+         <div class="form-group col-md-6">
+            <label for="">Product Category</label>
+            <input name="pcat" type="text" value="<%= product.pcat %>" class=" form-control" placeholder="Product Category">
+         </div>
+
+         <div class="form-group col-md-6">
+            <label for="">Product Quantity</label>
+            <input name="pquantity" value="<%= product.pquantity %>" type="text" class=" form-control" placeholder="Product Quantity">
+         </div>
+
+         <input type="hidden" name="id" value="<%= product._id %>">
+
+         <button type="submit" class="btn btn-primary">Edit Product</button>
+      </form>
+   </div>
+
+   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+      </script>
+
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+      integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous">
+      </script>
+
+   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+      integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous">
+      </script>
+
+</body>
+
+</html>

@@ -1,0 +1,164 @@
+<% if(isLoggedin) {
+    %>
+    <%- include('../partials/adminHeader') %>
+ <% } %>
+<style>
+
+    .href {
+  background-color: #000000;
+  color: white;
+  padding: 14px 25px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  border-radius: 25px;
+}
+
+.href:hover {
+  background-color: rgb(61, 43, 43);
+}
+</style>
+<head>
+    <meta charset="utf-8">
+    <title>WoodPecker</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Free HTML Templates" name="keywords">
+    <meta content="Free HTML Templates" name="description">
+
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="css/style.css" rel="stylesheet">    
+</head>
+
+    <div class="container mt-5">
+        <table class="table">
+            <thead>
+        
+                    <a class="href mr-3" href="/admin/cat-sel?id=all">All</a>
+                    <a  class="href mr-3" href="/admin/cat-sel?id=confirmed">Confirmed</a>
+                    <a class="href" href="/admin/cat-sel?id=delivered">Delivered</a>
+                  
+    
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">Date</th>
+                    <td>Payment Type</td>
+                    <td>Amount</td>
+                    <td>Status</td>
+                </tr>
+                <% for(let i=1;i<=orders.length;i++) { 
+                    if(orderStatus=='all') { %>
+                    <tr>
+                        <td>
+                            <h6>
+                                <%=orders[i-1].createdAt %>
+                            </h6>
+                        </td>
+                        <td>
+                            <h6>
+                                <%=orders[i-1].payment %>
+                            </h6>
+                        </td>
+                        <td>
+                            <h6>
+                                <%=orders[i-1].totalPrice %>
+                            </h6>
+                        </td>
+                        <td>
+                            <h6>
+                                <%=orders[i-1].status %>
+                            </h6>
+                        </td>
+                        <td>
+                            <h6>
+                                <form action="/admin/confirm-order?id=<%=orders[i-1]._id %>" method="post">
+                                    <td><button type="submit" class="btn-primary">Confirm</button></td>
+                                </form>
+                            </h6>
+                        </td>
+                        <td>
+                            <h6>
+                                <form action="/admin/delete-order?id=<%=orders[i-1]._id %>" method="post">
+                                    <td><button type="submit" class="btn-primary">Cancel</button></td>
+                                </form>
+                            </h6>
+                        </td>
+                    </tr>
+                   <%} else if(orderStatus=='confirmed' && orders[i-1].status=='confirmed'){ %>
+                   <tr>
+                    <td>
+                        <h6>
+                            <%=orders[i-1].createdAt %>
+                        </h6>
+                    </td>
+                    <td>
+                        <h6>
+                            <%=orders[i-1].payment %>
+                        </h6>
+                    </td>
+                    <td>
+                        <h6>
+                            <%=orders[i-1].totalPrice %>
+                        </h6>
+                    </td>
+                    <td>
+                        <h6>
+                            <%=orders[i-1].status %>
+                        </h6>
+                    </td>
+                    <td>
+                        <h6>
+                            <form action="/admin/deliver-order?id=<%=orders[i-1]._id %>" method="post">
+                                <td><button type="submit" class="btn-primary">Deliver</button></td>
+                            </form>
+                        </h6>
+                    </td>
+                    <td>
+                        <h6>
+                            <form action="/admin/delete-order?id=<%=orders[i-1]._id %>" method="post">
+                                <td><button type="submit" class="btn-primary">Cancel</button></td>
+                            </form>
+                        </h6>
+                    </td>
+                </tr>
+<%} else if(orderStatus=='delivered' && orders[i-1].status=='delivered'){ %>
+                    <tr>
+                    <td>
+                        <h6>
+                            <%=orders[i-1].createdAt %>
+                        </h6>
+                    </td>
+                    <td>
+                        <h6>
+                            <%=orders[i-1].payment %>
+                        </h6>
+                    </td>
+                    <td>
+                        <h6>
+                            <%=orders[i-1].totalPrice %>
+                        </h6>
+                    </td>
+                    <td>
+                        <h6>
+                            <%=orders[i-1].status %>
+                        </h6>
+                    </td>
+                </tr>
+                    <% }} %>
+            </tbody>
+        </table>
+    </div>

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>WoodPecker</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Free HTML Templates" name="keywords">
+    <meta content="Free HTML Templates" name="description">
+
+    <!-- Favicon -->
+    <link href="img/titleicon1.png" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="css/style.css" rel="stylesheet">
+   
+    <!--Chart-->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    
+    <!-- Page Header Start -->
+    <div class="container-fluid bg-secondary mb-5">
+        <% if(isLoggedin) {
+            %>
+            <%- include('../partials/adminHeader') %>
+         <% } %>
+        <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 120px">
+            <h1 class="font-weight-semi-bold text-uppercase mb-3">Admin Page</h1>
+            <div class="d-inline-flex">
+                <!-- <p class="m-0"><a href="">Home</a></p> -->
+                <button type="button" class="btn btn-primary"><a style="color: #562723; text-decoration: none;"
+                        href="/admin/editUser"> Edit User</a></button>
+                <p class="m-0 px-2">_</p>
+                <!-- <p class="m-0">Shopping Cart</p> -->
+                <button type="button" class="btn btn-primary"><a style="color: #562723; text-decoration: none;"
+                        href="/admin/addProducts"> Add Products</a></button>
+                <p class="m-0 px-2">_</p>
+                <button type="button" class="btn btn-primary"><a style="color: #562723; text-decoration: none;"
+                        href="/admin/manageProducts"> Manage Products</a></button>
+                <p class="m-0 px-2">_</p>
+                <button type="button" class="btn btn-primary"><a style="color: #562723; text-decoration: none;"
+                        href="/admin/addcategories"> Add Categories</a></button>
+                <p class="m-0 px-2">_</p>
+                <button type="button" class="btn btn-primary"><a style="color: #562723; text-decoration: none;"
+                        href="/admin/orderManager"> Orders</a></button>
+                <p class="m-0 px-2">_</p>
+                <button type="button" class="btn btn-primary"><a style="color: #562723; text-decoration: none;"
+                        href="/admin/manageCoupon">Manage Coupon</a></button>
+            </div>
+        </div>
+    </div>
+    <!-- Page Header End -->
+
+
+    <!-- Chart Start -->
+    <div class="container-fluid pt-3 ">
+        <div class="row px-xl-5">
+            <div class="col-lg-4 table-responsive mx-auto mb-5">   
+                <!--Chart-->
+                <div>
+                    <div>
+                        <h3 class="d-flex flex-column align-items-center justify-content-center">Popular Categories</h3>
+                    </div>
+                    <input type="hidden" value="<%=name %>" id="name">
+                    <input type="hidden" value="<%=count%>" id="count">
+                    <canvas id="myChart"></canvas>
+                </div>
+                <script type="text/javascript">
+                const name = document.getElementById('name');
+                const nameArray = name.value.split(',');
+                console.log(nameArray);
+                const count = document.getElementById('count');
+                const countArray = count.value.split(',');
+                console.log(countArray);
+                const pop = document.getElementById('myChart');       
+                            new Chart(pop, {
+                              type: 'pie',
+                              data: {
+                                labels: nameArray,
+                                datasets: [{
+                                  label: 'Orders:',
+                                  data: countArray,
+                                  borderWidth: 1
+                                }]
+                              }
+                            })
+            </script>    
+            </div>
+        </div>
+    </div>
+    <!-- Chart End -->
+
+    <!-- Footer Start -->
+    <div class="container-fluid bg-secondary text-dark mt-5 pt-5">
+        <div class="row px-xl-5 pt-5">
+            <div class="col-lg-4 col-md-12 mb-5 pr-3 pr-xl-5">
+                <a href="" class="text-decoration-none">
+                    <h1 class="mb-4 display-5 font-weight-semi-bold"><span
+                            class="text-primary font-weight-bold border border-white px-3 mr-1">E</span>Shopper</h1>
+                </a>
+                <p>E-Shopper – India Ka Fashion Capital. EShopper houses thousands of amazing brands, such as Nike, Puma, Levi’s, and Titan, among others</p>
+                <p class="mb-2"><i class="fa fa-map-marker-alt text-primary mr-3"></i>Trivandrum,Kerala,India</p>
+                <p class="mb-2"><i class="fa fa-envelope text-primary mr-3"></i>eshopper@email.com</p>
+                <p class="mb-0"><i class="fa fa-phone-alt text-primary mr-3"></i>+91 0202 0022 34</p>
+            </div>
+            <div class="col-lg-8 col-md-12">
+                <div class="row">
+                    <div class="col-md-4 mb-5">
+                        <h5 class="font-weight-bold text-dark mb-4">Quick Links</h5>
+                        <div class="d-flex flex-column justify-content-start">
+                            <a class="text-dark mb-2" href=""><i class="fa fa-angle-right mr-2"></i>Edit USer</a>
+                            <a class="text-dark mb-2" href="shop.html"><i class="fa fa-angle-right mr-2"></i>Add Product
+                            </a>
+                            <a class="text-dark mb-2" href="detail.html"><i class="fa fa-angle-right mr-2"></i>Manage Products</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row border-top border-light mx-xl-5 py-4">
+            <div class="col-md-6 px-xl-0">
+                <p class="mb-md-0 text-center text-md-left text-dark">
+                    &copy; <a class="text-dark font-weight-semi-bold" href="#">E-Shopper</a>. All Rights Reserved.
+                    Designed
+                    by
+                    <a class="text-dark font-weight-semi-bold" href="https://htmlcodex.com">Vaishnav R</a><br>
+                </p>
+            </div>
+            <div class="col-md-6 px-xl-0 text-center text-md-right">
+                <img class="img-fluid" src="img/payments.png" alt="">
+            </div>
+        </div>
+    </div>
+    <!-- Footer End -->
+
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
+
+    <!--Chart-->
+    <script>
+  const ctx = document.getElementById('myChart');
+
+  new Chart(ctx, {
+    type: 'pie',
+    data: {
+      labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+      datasets: [{
+        label: '# of Votes',
+        data: [12, 19, 3, 5, 2, 3],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+</script>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+
+    <!-- Contact Javascript File -->
+    <script src="mail/jqBootstrapValidation.min.js"></script>
+    <script src="mail/contact.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="js/main.js"></script>
+</body>
+
+</html>

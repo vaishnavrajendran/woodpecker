@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>WoodPecker</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Free HTML Templates" name="keywords">
+    <meta content="Free HTML Templates" name="description">
+
+    <!-- Favicon -->
+    <link href="img/titleicon1.png" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="css/style.css" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script  src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.2/js/buttons.print.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/DataTables/datatables.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.css">
+    <script>
+        $(document).ready( function () {
+        $('#myTable').DataTable();
+        } );
+    </script>
+    
+</head>
+
+<body>
+
+    <!-- Page Header Start -->
+    <div class="container-fluid bg-secondary ">
+        <% if(isLoggedin) {
+            %>
+            <%- include('../partials/adminHeader') %>
+         <% } %>
+        <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 120px">
+            <h1 class="font-weight-semi-bold text-uppercase mb-3">Admin Page</h1>
+            <div class="d-inline-flex">
+                <!-- <p class="m-0"><a href="">Home</a></p> -->
+                <button type="button" class="btn btn-primary"><a style="color: #562723; text-decoration: none;"
+                        href="/admin/editUser"> Edit User</a></button>
+                <p class="m-0 px-2">_</p>
+                <!-- <p class="m-0">Shopping Cart</p> -->
+                <button type="button" class="btn btn-primary"><a style="color: #562723; text-decoration: none;"
+                        href="/admin/addProducts"> Add Products</a></button>
+            </div>
+        </div>
+    </div>
+    <!-- Page Header End -->
+
+    <!-- Cart Start -->
+    <div class="container-fluid pt-5">
+        <div class="row px-xl-5 align-items-center justify-content-center">
+            <div class="col-lg-10 table-responsive mb-5">
+                <table id="myTable" class="table table-bordered text-center mb-0">
+                    <thead class="bg-secondary text-dark">
+                        <tr>
+                            <th>No</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="align-middle">
+                        <% if(user.length>0) {
+                            for(let i=1;i<=user.length;i++) { %>
+                                <tr>
+                                    <td>
+                                        <%= i %>
+                                    </td>
+                                    <td>
+                                        <%=user[i-1].fname %>
+                                            <%= user[i-1].lname %>
+                                    </td>
+                                    <td>
+                                        <%=user[i-1].email %>
+                                    </td>
+                                    <td>
+                                        <% if(user[i-1].isVerified===0) {%>
+                                            <p>Blocked</p>
+                                            <% } else { %>
+                                                <p>Active</p>
+                                                <% } %>
+                                    </td>
+                                    <td>
+                                        <button><a onclick="return confirm('Are you sure to block?')" style="text-decoration:none;"
+                                                href="/admin/block-user?id=<%= user[i-1]._id %> ">
+                                                <% if(user[i-1].isVerified) { %>
+                                                    Block
+                                            </a></button>
+                                        <% } else { %>
+                                            <a onclick="return confirm('Are you sure to unblock?')" style="text-decoration:none;"
+                                                href="/admin/block-user?id=<%= user[i-1]._id %> ">Unblock</a>
+                                            <% } %>
+
+                                    </td>
+                                </tr>
+                                <% } %>
+                                    <% } %>
+                    </tbody>
+                </table>
+            </div>
+
+
+
+
+            <!-- Back to Top -->
+            <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
+
+            
+
+
+            <!-- JavaScript Libraries -->
+            <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+            <script src="lib/easing/easing.min.js"></script>
+            <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+
+            <!-- Contact Javascript File -->
+            <script src="mail/jqBootstrapValidation.min.js"></script>
+            <script src="mail/contact.js"></script>
+
+            <!-- Template Javascript -->
+            <script src="js/main.js"></script>
+</body>
+
+</html>

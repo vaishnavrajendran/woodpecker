@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>WoodPecker</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Free HTML Templates" name="keywords">
+    <meta content="Free HTML Templates" name="description">
+
+    <!-- Favicon -->
+    <link href="img/titleicon1.png" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body>
+
+
+
+    <!-- Page Header Start -->
+    <div class="container-fluid bg-secondary mb-3">
+        <% if(isLoggedin) {
+            %>
+            <%- include('../partials/adminHeader') %>
+         <% } %>
+        <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 120px">
+            <h1 class="font-weight-semi-bold text-uppercase mb-3">Admin Page</h1>
+            <div class="d-inline-flex">
+                <!-- <p class="m-0"><a href="">Home</a></p> -->
+                <button type="button" class="btn btn-primary"><a style="color: #562723; text-decoration: none;"
+                        href="/admin/editUser"> Edit User</a></button>
+                <p class="m-0 px-2">_</p>
+                <!-- <p class="m-0">Shopping Cart</p> -->
+                <button type="button" class="btn btn-primary"><a style="color: #562723; text-decoration: none;"
+                        href="/admin/addProducts"> Add Products</a></button>
+            </div>
+        </div>
+    </div>
+    <!-- Page Header End -->
+
+
+    <!-- Cart Start -->
+    <div class="container-fluid pt-5">
+        <div class="row px-xl-5 align-items-center justify-content-center">
+            <div class="col-lg-10 table-responsive mb-5">
+                <table class="table table-bordered text-center mb-0">
+                    <thead class="bg-secondary text-dark">
+                        <tr>
+                            <th>No</th>
+                            <th>Product Name</th>
+                            <th>Price</th>
+                            <th>Description</th>
+                            <th>Category</th>
+                            <th>Image</th>
+                            <th>Quantity</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="align-middle">
+                        <% if(product.length>0) {
+                            for(let i=1;i<=product.length;i++) { %>
+                                <tr>
+                                    <td>
+                                        <%= i %>
+                                    </td>
+                                    <td>
+                                        <%=product[i-1].pname %>
+                                    </td>
+                                    <td>
+                                        <%=product[i-1].price %>
+                                    </td>
+                                    <td>
+                                        <%=product[i-1].pdesc %>
+                                    </td>
+                                    <td>
+                                        <%=product[i-1].pcat %>
+                                    </td>
+                                    <td>
+                                        <% if(product[i-1].pimage) { %>
+                                            <img src="./productImages/<%= product[i-1].pimage %>" alt="Profile image"
+                                                width="70vw" height="70vh">
+                                            <% } %>
+                                    </td>
+                                    <td>
+                                        <%=product[i-1].pquantity %>
+                                    </td>
+                                    <td>
+                                        <a style="text-decoration:none;" href="/admin/editProduct?id=<%=product[i-1]._id%>">Edit</a> <br>
+                                        <a onclick="return confirm('Do you want tot delete')" style="text-decoration:none;" href="/admin/deleteProduct?id=<%=product[i-1]._id%>">Delete</a>
+                                    </td>
+                                </tr>
+                                <% } %>
+                                    <% } %>
+                    </tbody>
+                </table>
+            </div>
+
+
+
+
+            <!-- Back to Top -->
+            <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
+
+
+            <!-- JavaScript Libraries -->
+            <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+            <script src="lib/easing/easing.min.js"></script>
+            <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+
+            <!-- Contact Javascript File -->
+            <script src="mail/jqBootstrapValidation.min.js"></script>
+            <script src="mail/contact.js"></script>
+
+            <!-- Template Javascript -->
+            <script src="js/main.js"></script>
+</body>
+
+</html>

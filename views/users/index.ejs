@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>WoodPecker</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Free HTML Templates" name="keywords">
+    <meta content="Free HTML Templates" name="description">
+
+    <!-- Favicon -->
+    <link href="img/titleicon1.png" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="css/style.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css" media="all">
+    <!--Sweet Alert-->
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+        integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!--Sweet Alert-->
+</head>
+
+<body>
+    <!-- Topbar Start -->
+    <% if(isLoggedin) { %>
+        <%- include('../partials/userIndexHeader') %>
+            <% }else { %>
+                <%- include('../partials/normalHeader') %>
+                    <% } %>
+                        <!-- Navbar End -->
+
+                        <!-- Featured Start -->
+                        <div class="container-fluid pt-5">
+                            <div class="row px-xl-5 pb-3">
+                                <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
+                                    <div class="d-flex align-items-center border mb-4" style="padding: 30px;">
+                                        <h1 class="fa fa-check text-primary m-0 mr-3"></h1>
+                                        <h5 class="font-weight-semi-bold m-0">Quality Product</h5>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
+                                    <div class="d-flex align-items-center border mb-4" style="padding: 30px;">
+                                        <h1 class="fa fa-shipping-fast text-primary m-0 mr-2"></h1>
+                                        <h5 class="font-weight-semi-bold m-0">Free Shipping</h5>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
+                                    <div class="d-flex align-items-center border mb-4" style="padding: 30px;">
+                                        <h1 class="fas fa-exchange-alt text-primary m-0 mr-3"></h1>
+                                        <h5 class="font-weight-semi-bold m-0">14-Day Return</h5>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
+                                    <div class="d-flex align-items-center border mb-4" style="padding: 30px;">
+                                        <h1 class="fa fa-phone-volume text-primary m-0 mr-3"></h1>
+                                        <h5 class="font-weight-semi-bold m-0">24/7 Support</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Featured End -->
+
+
+                        <!-- Categories Start -->
+                        <div class="container-fluid pt-5">
+                            <div class="row px-xl-5 pb-3">
+                                <%if(categories.length>0){
+                                    for(let i=1;i<=categories.length;i++){%>
+                                        <div class="col-lg-4 col-md-6 pb-1">
+                                            <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
+                                                <!-- <p class="text-right">15 Products</p> -->
+                                                <a href="" class="cat-img position-relative overflow-hidden mb-3">
+                                                    <img class="img-fluid"
+                                                        src="./productImages/<%= categories[i-1].pimage %>" alt="">
+                                                </a>
+                                                <h5 class="font-weight-semi-bold m-0 text-center">
+                                                    <%= categories[i-1].pcat %>
+                                                </h5>
+                                            </div>
+                                        </div>
+                                        <% } %>
+                                            <% } %>
+                            </div>
+                        </div>
+                        <!-- Categories End -->
+
+
+                        <!-- Offer Start -->
+                        <div class="container-fluid offer pt-5">
+                            <div class="row px-xl-5">
+                                <div class="col-md-6 pb-4">
+                                    <div
+                                        class="position-relative bg-secondary text-center text-md-right text-white mb-2 py-5 px-5">
+                                        <img src="img/furniture1.png" alt="">
+                                        <div class="position-relative" style="z-index: 1;">
+                                            <h5 class="text-uppercase text-primary mb-3">20% off the all order</h5>
+                                            <h2 class="mb-4 font-weight-semi-bold">Shop Livingroom</h2>
+                                            <a href="/shop" class="btn btn-outline-primary py-md-2 px-md-3">Shop Now</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 pb-4">
+                                    <div
+                                        class="position-relative bg-secondary text-center text-md-left text-white mb-2 py-5 px-5">
+                                        <img src="img/furniture2.png" alt="">
+                                        <div class="position-relative" style="z-index: 1;">
+                                            <h5 class="text-uppercase text-primary mb-3">20% off the all order</h5>
+                                            <h2 class="mb-4 font-weight-semi-bold">Shop Bedroom</h2>
+                                            <a href="/shop" class="btn btn-outline-primary py-md-2 px-md-3">Shop Now</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Offer End -->
+
+
+                        <!-- Products Start -->
+                        <div class="container-fluid pt-5">
+                            <div class="text-center mb-4">
+                                <h2 class="section-title px-5"><span class="px-2">Trendy Products</span></h2>
+                            </div>
+                            <div class="row px-xl-5 pb-3">
+                                <%if(product.length>0){
+                                    for(let i=1;i<=product.length;i++){%>
+                                        <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
+                                            <div class="card product-item border-0 mb-4">
+                                                <div
+                                                    class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
+                                                    <a href="/viewDetail?id=<%=product[i-1]._id %>"><img
+                                                            class="img-fluid w-100"
+                                                            src="./productImages/<%= product[i-1].pimage %>" alt=""></a>
+                                                </div>
+                                                <div
+                                                    class="card-body border-left border-right text-center p-0 pt-4 pb-3">
+                                                    <h6 class="text-truncate mb-3">
+                                                        <%= product[i-1].pname %>
+                                                    </h6>
+                                                    <div class="d-flex justify-content-center">
+                                                        <!-- <% if(product[i-1].pimage) { %> -->
+                                                        <h6>₹<%= product[i-1].price %>
+                                                        </h6>
+                                                        <h6 class="text-muted ml-2"><del>₹<%= (product[i-1].price)+sub
+                                                                    %></del></h6>
+                                                        <!-- <% } %> -->
+                                                    </div>
+                                                </div>
+                                                <div class="card-footer d-flex justify-content-between bg-light border">
+                                                    <a href="/addToWishlist?id=<%=product[i-1]._id %>"
+                                                        class="btn btn-sm text-dark p-0"><i
+                                                            class="fas fa-heart text-primary mr-1"></i>Add to
+                                                        Wishlist</a>
+                                                    <a href="/addToCart?id=<%= product[i-1]._id %>"
+                                                        class="btn btn-sm text-dark p-0"><i
+                                                            class="fas fa-shopping-cart text-primary mr-1"></i>Add To
+                                                        Cart</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <% } %>
+                                            <% } %>
+                            </div>
+                        </div>
+                        <!-- Products End -->
+
+
+                        <!-- Subscribe Start -->
+                        <div class="container-fluid bg-secondary my-5">
+                            <div class="row justify-content-md-center py-5 px-xl-5">
+                                <div class="col-md-6 col-12 py-5">
+                                    <div class="text-center mb-2 pb-2">
+                                        <h2 class="section-title px-5 mb-3"><span class="bg-secondary px-2">Stay
+                                                Updated</span></h2>
+                                        <p>We use only the best quality raw materials and offer a wide variety of
+                                            finishes and colours to match your space, backed with years of warranties
+                                        </p>
+                                    </div>
+                                    <form action="">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control border-white p-4"
+                                                placeholder="Email Goes Here">
+                                            <div class="input-group-append">
+                                                <button class="btn btn-primary px-4">Subscribe</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Subscribe End -->
+
+
+                        <!-- Products Start -->
+                        <div class="container-fluid pt-5">
+                            <div class="text-center mb-4">
+                                <h2 class="section-title px-5"><span class="px-2">Just Arrived</span></h2>
+                            </div>
+                            <div class="container-fluid pt-5">
+                                <div class="row px-xl-5 pb-3">
+                                    <%if(product.length>0){
+                                        for(let i=1;i<=product.length;i++){%>
+                                            <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
+                                                <div class="card product-item border-0 mb-4">
+                                                    <div
+                                                        class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
+                                                        <a href="/viewDetail?id=<%=product[i-1]._id %>">
+                                                            <img class="img-fluid w-100"
+                                                                src="./productImages/<%= product[i-1].pimage %>" alt="">
+                                                        </a>
+                                                    </div>
+                                                    <div
+                                                        class="card-body border-left border-right text-center p-0 pt-4 pb-3">
+                                                        <h6 class="text-truncate mb-3">
+                                                            <%= product[i-1].pname %>
+                                                        </h6>
+                                                        <div class="d-flex justify-content-center">
+                                                            <!-- <% if(product[i-1].pimage) { %> -->
+                                                            <h6>₹<%= product[i-1].price %>
+                                                            </h6>
+                                                            <h6 class="text-muted ml-2"><del>₹<%=
+                                                                        (product[i-1].price)+sub %></del></h6>
+                                                            <!-- <% } %> -->
+                                                        </div>
+                                                    </div>
+                                                    <div
+                                                        class="card-footer d-flex justify-content-between bg-light border">
+                                                        <a href="/addToWishlist?id=<%=product[i-1]._id %>"
+                                                            class="btn btn-sm text-dark p-0"><i
+                                                                class="fas fa-heart text-primary mr-1"></i>Add to
+                                                            Wishlist</a>
+                                                        <a href="/addToCart?id=<%= product[i-1]._id %>"
+                                                            class="btn btn-sm text-dark p-0"><i
+                                                                class="fas fa-shopping-cart text-primary mr-1"></i>Add
+                                                            To Cart</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <% } %>
+                                                <% } %>
+                                </div>
+                            </div>
+
+                            <!-- Products End -->
+
+
+                            <!-- Vendor Start -->
+                            <div class="container-fluid py-5">
+                                <div class="row px-xl-5">
+                                    <div class="col">
+                                        <div class="owl-carousel vendor-carousel">
+                                            <div class="vendor-item border p-4">
+                                                <img src="img/logo1.webp" alt="">
+                                            </div>
+                                            <div class="vendor-item border p-4">
+                                                <img src="img/logo2.jpg" alt="">
+                                            </div>
+                                            <div class="vendor-item border p-4">
+                                                <img src="img/logo3.jpg" alt="">
+                                            </div>
+                                            <div class="vendor-item border p-4">
+                                                <img src="img/logo4.png" alt="">
+                                            </div>
+                                            <div class="vendor-item border p-4">
+                                                <img src="img/logo5.png" alt="">
+                                            </div>
+                                            <div class="vendor-item border p-4">
+                                                <img src="img/logo6.jpg" alt="">
+                                            </div>
+                                            <div class="vendor-item border p-4">
+                                                <img src="img/logo7.png" alt="">
+                                            </div>
+                                            <div class="vendor-item border p-4">
+                                                <img src="img/logo8.jpg" alt="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 pb-1">
+                                <nav aria-label="Page navigation">
+                                    <ul class="pagination justify-content-center mb-3">
+                                        <li class="page-item disabled">
+                                            <a class="page-link" href="#" aria-label="Previous">
+                                                <span aria-hidden="true">&laquo;</span>
+                                                <span class="sr-only">Previous</span>
+                                            </a>
+                                        </li>
+                                        <% for(let j=1;j<=totalPages;j++){ %>
+                                            <li class="page-item "><a class="page-link" href="?page=<%= j %>">
+                                                    <%=j%>
+                                                </a></li>
+
+                                            <% } %>
+                                                <li class="page-item">
+                                                    <a class="page-link" href="#" aria-label="Next">
+                                                        <span aria-hidden="true">&raquo;</span>
+                                                        <span class="sr-only">Next</span>
+                                                    </a>
+                                                </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                            <!-- Vendor End -->
+
+                            <!--footer-->
+                            <%- include('../partials/userFooter') %>
+
+                                <!-- Back to Top -->
+                                <a href="#" class="btn btn-primary back-to-top"><i
+                                        class="fa fa-angle-double-up"></i></a>
+
+
+                                <!-- JavaScript Libraries -->
+                                <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+                                <script
+                                    src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+                                <script src="lib/easing/easing.min.js"></script>
+                                <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+
+                                <!-- Contact Javascript File -->
+                                <script src="mail/jqBootstrapValidation.min.js"></script>
+                                <script src="mail/contact.js"></script>
+
+                                <!-- Template Javascript -->
+                                <script src="js/main.js"></script>
+</body>
+
+</html>

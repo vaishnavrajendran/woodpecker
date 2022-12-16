@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>WoodPecker</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Free HTML Templates" name="keywords">
+    <meta content="Free HTML Templates" name="description">
+
+    <!-- Favicon -->
+    <link href="img/titleicon1.png" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="css/style.css" rel="stylesheet">
+    <style>
+        .container {
+          padding: 2rem 0rem;
+        }
+        
+        h4 {
+          margin: 2rem 0rem 1rem;
+        }
+        
+        
+            </style>
+</head>
+<body>
+    <!-- Page Header Start -->
+    <div class="container-fluid bg-secondary mb-3">
+        <% if(isLoggedin) {
+            %>
+            <%- include('../partials/adminHeader') %>
+         <% } %>
+        <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 120px">
+            <h1 class="font-weight-semi-bold text-uppercase mb-3">Manage Coupon</h1>
+            <div class="d-inline-flex">
+                
+                <!-- <p class="m-0">Shopping Cart</p> -->
+                <button type="button" class="btn btn-primary"><a style="color: #562723; text-decoration: none;"
+                        href="/admin/addCoupon"> Add Coupon</a></button>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid pt-5">
+        <div class="row px-xl-5">
+            <div class="col-lg-12 table-responsive mb-5">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th scope="col">No.</th>
+                  <th scope="col">Coupon Name</th>
+                  <th scope="col">Coupon Type</th>
+                  <th scope="col">Offer</th>
+                  <th scope="col">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% if(coupon.length>=0){
+                    for(let i=1;i<=coupon.length;i++){ %>
+                <tr>
+                  <th scope="row"><%= i %></th>
+                  <td><%= coupon[i-1].name %></td>
+                  <td><%= coupon[i-1].type %></td>
+                  <td><%= coupon[i-1].offer %></td>
+                  <td>
+                  <button type="button" class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
+                  </td>
+                </tr>
+                <% } 
+                        } %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+                </div>
+                </div>
+                </div>
+    
+</body>
+
+</html>
+
