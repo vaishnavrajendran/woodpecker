@@ -10,12 +10,9 @@ const Category = require('../models/categoryModel')
 const Wishlist = require('../models/wishlistModel')
 const Coupon = require('../models/couponModel');
 const { render } = require('../routes/userRoute');
-let isLoggedin
-isLoggedin = false;
+
 let sess = false || {};
-
 let USERID, randomOTP;
-
 let coupon = {
     name: 'none',
     type: 'none',
@@ -471,6 +468,7 @@ const postCheckout = async (req, res) => {
 
 const ordersuccesful = async (req, res) => {
     // userSession = req.session
+    const delCart = await Cart.deleteOne({userID:req.session.userId})
     const orderData = await Order.findOne({ userID: req.session.userId }).populate('product.productID')
     const forTotal = await Order.findOne({ userID: req.session.userId })
     res.render('orderplaced', { cart: orderData.product, totalprice: req.session.couponTotal })
