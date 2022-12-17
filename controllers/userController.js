@@ -468,7 +468,7 @@ const postCheckout = async (req, res) => {
 
 const ordersuccesful = async (req, res) => {
     // userSession = req.session
-    const delCart = await Cart.deleteOne({userID:req.session.userId})
+    const delCart = await Cart.findOneAndDelete({userID:req.session.userId})
     const orderData = await Order.findOne({ userID: req.session.userId }).populate('product.productID')
     const forTotal = await Order.findOne({ userID: req.session.userId })
     res.render('orderplaced', { cart: orderData.product, totalprice: req.session.couponTotal })
