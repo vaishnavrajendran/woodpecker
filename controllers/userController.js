@@ -457,18 +457,19 @@ const postCheckout = async (req, res) => {
     console.log(req.session.couponTotal);
     const userCoupon = await Coupon.updateOne({ name: req.session.coupon.name }, { $push: { usedBy: req.session.userId } })
     if (req.body.payment == 'cod') {
+        const delCart = await Cart.findOneAndDelete({userID:req.session.userId})
         await Order.findOneAndUpdate({ userID: req.session.userId }, { status: 'billed' })
         const orderData = await Order.findOne({ userID: req.session.userId }).populate('product.productID')
         const forTotal = await Order.findOne({ userID: req.session.userId })
         res.render('orderPlaced', { cart: orderData.product, totalprice: req.session.couponTotal })
     } else if (req.body.payment == 'paypal') {
+        const delCart = await Cart.findOneAndDelete({userID:req.session.userId})
         res.redirect('/paypal')
     }
 }
 
 const ordersuccesful = async (req, res) => {
     // userSession = req.session
-    const delCart = await Cart.findOneAndDelete({userID:req.session.userId})
     const orderData = await Order.findOne({ userID: req.session.userId }).populate('product.productID')
     const forTotal = await Order.findOne({ userID: req.session.userId })
     res.render('orderplaced', { cart: orderData.product, totalprice: req.session.couponTotal })
