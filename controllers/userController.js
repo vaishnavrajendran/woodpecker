@@ -85,7 +85,7 @@ const userIndex = async (req, res) => {
 
         let sub = 500;
         res.render('index', {
-            isLoggedin,
+            isLoggedin:req.session.userId,
             sub: sub,
             categories: productCategories,
             product: productSearch,
@@ -112,7 +112,7 @@ const userShop = async (req, res) => {
                 { pdesc: { $regex: '.*' + search + '.*', $options: 'i' } }
             ]
         });
-        res.render('shop', { isLoggedin, product: productSearch, category: categories })
+        res.render('shop', { isLoggedin:req.session.userId, product: productSearch, category: categories })
     } catch (error) {
         console.log(error.message);
     }
@@ -226,18 +226,18 @@ const userCart = async (req, res) => {
             await productData.save();
             if (req.session.couponTotal < productData.totalPrice && req.session.couponTotal != 0 && req.session.coupon.used == 1) {
                 req.session.coupon.used = 0;
-                res.render('cart', { isLoggedin, cart: cartFetch.product, totalCart: req.session.couponTotal, shipping: ship })
+                res.render('cart', { isLoggedin:req.session.userId, cart: cartFetch.product, totalCart: req.session.couponTotal, shipping: ship })
             } else if (req.session.couponTotal == 0) {
                 req.session.couponTotal = productData.totalPrice;
-                res.render('cart', { isLoggedin, cart: cartFetch.product, totalCart: req.session.couponTotal, shipping: ship })
+                res.render('cart', { isLoggedin:req.session.userId, cart: cartFetch.product, totalCart: req.session.couponTotal, shipping: ship })
             } else {
                 req.session.couponTotal = productData.totalPrice;
                 console.log('userr', req.session.couponTotal);
-                res.render('cart', { isLoggedin, cart: cartFetch.product, totalCart: req.session.couponTotal, shipping: ship })
+                res.render('cart', { isLoggedin:req.session.userId, cart: cartFetch.product, totalCart: req.session.couponTotal, shipping: ship })
             }
         } else {
             console.log('none');
-            res.render('cart', { isLoggedin, cart: '', totalCart: req.session.couponTotal, shipping: ship })
+            res.render('cart', { isLoggedin:req.session.userId, cart: '', totalCart: req.session.couponTotal, shipping: ship })
         }
 
     } catch (error) {
@@ -265,10 +265,10 @@ const wishlist = async (req, res) => {
         const fetchWishlist = await Wishlist.findOne(
             { userID: req.session.userId }).populate('product.productID')
         if (fetchWishlist) {
-            res.render('wishlist', { isLoggedin, wishlist: fetchWishlist.product })
+            res.render('wishlist', { isLoggedin:req.session.userId, wishlist: fetchWishlist.product })
         } else {
             console.log('none1');
-            res.render('wishlist', { isLoggedin, wishlist: '' })
+            res.render('wishlist', { isLoggedin:req.session.userId, wishlist: '' })
         }
 
     } catch (error) {
@@ -320,7 +320,7 @@ const userCheckout = async (req, res) => {
         // const forTotal = await Cart.findOne({userID:userSession.userId})
         const cartFetch = await Cart.findOne(
             { userID: req.session.userId }).populate('product.productID')
-        res.render('checkout', { isLoggedin, cart: cartFetch.product, cartTotal: req.session.couponTotal, shipping: ship })
+        res.render('checkout', { isLoggedin:req.session.userId, cart: cartFetch.product, cartTotal: req.session.couponTotal, shipping: ship })
     } catch (error) {
         console.log(error.message);
     }
@@ -426,7 +426,7 @@ const viewDetail = async (req, res) => {
         prodID = req.query.id;
         const productDetails = await Product.find({ _id: prodID })
         const productcarosel = await Product.find()
-        res.render('detail', { isLoggedin, product: productDetails, productCar: productcarosel })
+        res.render('detail', { isLoggedin:req.session.userId, product: productDetails, productCar: productcarosel })
     } catch (error) {
         console.log(error.message);
     }
@@ -486,7 +486,7 @@ const userDashboard = async (req, res) => {
     productDetails = await Product.find({ _id: req.session.userId })
     userDetails = await User.find({ _id: req.session.userId })
     orderDetail = await checkoutModel.find({ userID: req.session.userId })
-    res.render('userDashboard', { isLoggedin, order: orderDetail, user: userDetails, product: productDetails })
+    res.render('userDashboard', { isLoggedin:req.session.userId, order: orderDetail, user: userDetails, product: productDetails })
 }
 
 const orderDetails = async (req, res) => {
@@ -523,7 +523,7 @@ const validateUser = async (req, res) => {
         const test = await validateUser.save()
         if (test) {
             res.redirect('/');
-            isLoggedin = true;
+            
         } else {
             res.render('registration', { message: "Invalid OTP" })
         }
@@ -533,7 +533,7 @@ const validateUser = async (req, res) => {
 const selCategories = async (req, res) => {
     const productData = await Product.find({ pcat: req.query.category })
     const categories = await Category.find()
-    res.render('shop', { product: productData, isLoggedin, category: categories })
+    res.render('shop', { product: productData, isLoggedin:req.session.userId, category: categories })
 }
 
 const addCoupon = async (req, res) => {

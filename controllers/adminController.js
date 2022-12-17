@@ -12,8 +12,6 @@ const Order = require('../models/checkoutModel')
 const Coupon = require('../models/couponModel');
 const { orderDetails } = require('./userController');
 
-isLoggedin = false
-let sess = false || {};
 
 const storage = multer.diskStorage({
     destination: './public/productImages',
@@ -36,7 +34,7 @@ const securePassword = async(password) => {
 
 const adminHome = async(req,res) => {
     try {
-        if (isLoggedin) {
+        if (req.session.adminId) {
         categoryData = await Category.find()
         let categoryNames = [];
         let categoryCount = [];
@@ -63,7 +61,7 @@ const adminHome = async(req,res) => {
         console.log(categoryCount);
         console.log(typeof(categoryNames));
         console.log(typeof(categoryCount));
-        res.render('adminPage',{isLoggedin,name:categoryNames,count:categoryCount})
+        res.render('adminPage',{isLoggedin:req.session.adminId,name:categoryNames,count:categoryCount})
         } else {
             res.redirect('/admin/login')
         }
@@ -74,7 +72,7 @@ const adminHome = async(req,res) => {
 
 const adminPage =(req,res) => {
     try {
-        res.render('adminPage',{isLoggedin})
+        res.render('adminPage',{isLoggedin:req.session.adminId})
     } catch (error) {
         console.log(error.message);
     }
@@ -82,10 +80,10 @@ const adminPage =(req,res) => {
 
 const adminLogin = (req,res) => {
     try {
-        if(sess.email){
+        if(req.session.adminId){
             res.redirect('/admin')
         }else{
-            res.render('adminlogin',{ isLoggedin })
+            res.render('adminlogin',{ isLoggedin:req.session.adminId })
         }
     } catch (error) {
         console.log(error.message);
@@ -97,8 +95,7 @@ const adminPost = async(req,res) => {
     try {
         const email = req.body.email;
         const password = req.body.password;
-        sess=req.session;
-        sess.email=req.body.email;
+
         const userData = await User.findOne({ email: email })
         if (userData) {
             const passwordMatch = await bcrypt.compare(password, userData.password)
@@ -109,14 +106,15 @@ const adminPost = async(req,res) => {
                     userSession=req.session;
                     // userSession.userId=userData._id;
                     req.session.adminId=userData._id;
-                    isLoggedin = true
+                    console.log(req.session.adminId, "22");
+                    isLoggedin = req.session.adminId;
                     res.redirect('/admin')
                 }
             } else {
-                res.render('adminlogin', { message: "Email and password incorrect" })
+                res.render('adminlogin')
             }
         } else {
-            res.render('adminlogin', { message: "Email and password incorrect" })
+            res.render('adminlogin')
         }
     } catch (error) {
         console.log(error.message);
@@ -126,7 +124,7 @@ const adminPost = async(req,res) => {
 const adminLogout = (req,res) => {
     try {
         req.session.destroy();
-        isLoggedin = false
+        
         res.redirect('/admin/login');
     } catch (error) {
         console.log(error.message);
@@ -135,8 +133,8 @@ const adminLogout = (req,res) => {
 
 const adminAddProducts = async(req,res) => {
     try {
-        if (isLoggedin) {
-            res.render('addProducts',{isLoggedin})
+        if (req.session.adminId) {
+            res.render('addProducts',{isLoggedin:req.session.adminId})
         } else {
             res.redirect('/admin/login')
         }
@@ -147,9 +145,9 @@ const adminAddProducts = async(req,res) => {
 
 const adminEditUser = async(req,res) => {
 
-    if (isLoggedin) {
+    if (req.session.adminId) {
         const userData = await User.find({ isAdmin: 0 });
-        res.render('editUser', { isLoggedin,user: userData })
+        res.render('editUser', { isLoggedin:req.session.adminId,user: userData })
     } else {
         res.redirect('/')
     }
@@ -178,9 +176,9 @@ const adminPostAddProducts = async(req,res) => {
         })
         const productData = await product.save();
         if (productData) {
-            res.render('addProducts', { isLoggedin,message: "Product added" })
+            res.render('addProducts', { isLoggedin:req.session.adminId,message: "Product added" })
         } else {
-            res.render('addProducts', {isLoggedin, message: "Failed to add" })
+            res.render('addProducts', {isLoggedin:req.session.adminId, message: "Failed to add" })
         }
     } catch (error) {
         console.log(error.message);
@@ -201,7 +199,7 @@ const adminManageProducts = async(req,res) => {
                 {pdesc:{ $regex:'.*'+search+'.*',$options:'i'}}
             ]
         });
-        res.render('adminProductList', { isLoggedin,product: productpass })
+        res.render('adminProductList', { isLoggedin:req.session.adminId,product: productpass })
     } catch (error) {
         console.log(error.message);
     }
@@ -211,7 +209,7 @@ const adminEditProducts = async(req,res)=>{
     try {
         const id = req.query.id;
         const productData = await Product.findById({_id:id})
-        res.render('editProduct',{isLoggedin,product:productData})
+        res.render('editProduct',{isLoggedin:req.session.adminId,product:productData})
     } catch (error) {
         console.log(error.message);
     }
