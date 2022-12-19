@@ -13,6 +13,11 @@ app.use((req,res,next)=>{
     res.set('cache-control','no-cache,no-store,mustrevalidate,max-stale=0,post-check=0,prechecked=0')
     next()
 });
+
+// app.use(function (req, res) {
+//     res.status(404).redirect("/");
+//   });
+
 //for user routes
 const userRoute = require('./routes/userRoute')
 app.use('/', userRoute)
@@ -23,6 +28,10 @@ userRoute.use('/', express.static('public'))
 const adminRoute = require('./routes/adminRoute');
 const { cache } = require('ejs');
 app.use('/admin', adminRoute)
+
+app.use(function (req, res) {
+    res.status(404).redirect("/");
+  });
 
 app.listen(3000, function () {
    console.log('Server Running');

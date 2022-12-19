@@ -47,15 +47,16 @@
         <table class="table">
             <thead>
         
-                    <a class="href mr-3" href="/admin/cat-sel?id=all">All</a>
-                    <a  class="href mr-3" href="/admin/cat-sel?id=confirmed">Confirmed</a>
-                    <a class="href" href="/admin/cat-sel?id=delivered">Delivered</a>
-                  
-    
+                    <a class="href mr-2" href="/admin/cat-sel?id=all">All</a>
+                    <a  class="href mr-2" href="/admin/cat-sel?id=confirmed">Confirmed</a>
+                    <a class="href mr-2" href="/admin/cat-sel?id=delivered">Delivered</a>
+                    <a class="href mr-2" href="/admin/cat-sel?id=returnPending">Pending Returns</a>
+                    <a class="href mr-2" href="/admin/cat-sel?id=returned">Returned orders</a>
             </thead>
             <tbody>
                 <tr>
                     <th scope="row">Date</th>
+                    <td>Order Details</td>
                     <td>Payment Type</td>
                     <td>Amount</td>
                     <td>Status</td>
@@ -67,6 +68,11 @@
                             <h6>
                                 <%=orders[i-1].createdAt %>
                             </h6>
+                        </td>
+                        <td>
+                            <form action="/admin/order-details?id=<%=orders[i-1]._id%>" method="post">
+                                <button type="submit" class="btn-primary">Details</button>    
+                            </form>
                         </td>
                         <td>
                             <h6>
@@ -106,6 +112,11 @@
                         </h6>
                     </td>
                     <td>
+                            <form action="/admin/order-details?id=<%=orders[i-1]._id%>" method="post">
+                                <button type="submit" class="btn-primary">Details</button>    
+                            </form>
+                        </td>
+                    <td>
                         <h6>
                             <%=orders[i-1].payment %>
                         </h6>
@@ -143,6 +154,67 @@
                         </h6>
                     </td>
                     <td>
+                            <form action="/admin/order-details?id=<%=orders[i-1]._id%>" method="post">
+                                <button type="submit" class="btn-primary">Details</button>    
+                            </form>
+                    </td>
+                    <td>
+                        <h6>
+                            <%=orders[i-1].payment %>
+                        </h6>
+                    </td>
+                    <td>
+                        <h6>
+                            <%=orders[i-1].totalPrice %>
+                        </h6>
+                    </td>
+                    <td>
+                        <h6>
+                            <%=orders[i-1].status %>
+                        </h6>
+                    </td>
+                </tr>
+                <%} else if(orderStatus=='returnPending' && orders[i-1].status=='returnPending'){ %>
+                    <tr>
+                    <td>
+                        <h6>
+                            <%=orders[i-1].createdAt %>
+                        </h6>
+                    </td>
+                    <td>
+                            <form action="/admin/order-details?id=<%=orders[i-1]._id%>" method="post">
+                                <button type="submit" class="btn-primary">Details</button>    
+                            </form>
+                    </td>
+                    <td>
+                        <h6>
+                            <%=orders[i-1].payment %>
+                        </h6>
+                    </td>
+                    <td>
+                        <h6>
+                            <%=orders[i-1].totalPrice %>
+                        </h6>
+                    </td>
+                    <td>
+                        <form action="/admin/confirm-return?id=<%=orders[i-1]._id %>" method="post">
+                                <td><button type="submit" class="btn-primary">Confirm</button></td>
+                        </form>
+                    </td>
+                </tr>
+<%} else if(orderStatus=='returned' && orders[i-1].status=='returned'){ %>
+    <tr>
+                    <td>
+                        <h6>
+                            <%=orders[i-1].createdAt %>
+                        </h6>
+                    </td>
+                    <td>
+                            <form action="/admin/order-details?id=<%=orders[i-1]._id%>" method="post">
+                                <button type="submit" class="btn-primary">Details</button>    
+                            </form>
+                    </td>
+                    <td>
                         <h6>
                             <%=orders[i-1].payment %>
                         </h6>
@@ -162,3 +234,4 @@
             </tbody>
         </table>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.2/moment.min.js"></script>

@@ -15,9 +15,13 @@ const productSchema = mongoose.Schema({
     },
     pcat:{
         type:String,
-        required:true
+        
     },
     pimage:{
+        type:String,
+        required:true
+    },
+    pimage2:{
         type:String,
         required:true
     },

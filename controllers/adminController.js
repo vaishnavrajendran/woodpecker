@@ -11,17 +11,41 @@ const Category = require('../models/categoryModel')
 const Order = require('../models/checkoutModel')
 const Coupon = require('../models/couponModel');
 const { orderDetails } = require('./userController');
+const async = require('hbs/lib/async');
 
 
-const storage = multer.diskStorage({
-    destination: './public/productImages',
-    filename: (req, file, cb) => {
-        cb(null, file.fieldname + '_' + Date.now() + path.extname(file.originalname));
+// const storage = multer.diskStorage({
+//     destination: './public/productImages',
+//     filename: (req, file, cb) => {
+//         cb(null, file.fieldname + '_' + Date.now() + path.extname(file.originalname));
+//     }
+// });
+// const upload = multer({
+//     storage: storage
+// }).fields([{ name: 'pimage',maxCount:3}])
+
+let storage= multer.diskStorage({
+    destination:function(req,files,cb){
+        cb(null,'public/productImages')
+    },
+    filename:function(req,file,cb){
+        let ext = path.extname(file.originalname)
+        cb(null,file.fieldname +'-' +Date.now() + ext)
     }
-});
-const upload = multer({
-    storage: storage
-}).single('pimage');
+})
+const store= multer({storage:storage})
+
+// const storage = multer.diskStorage({
+//     destination: './public/productImages',
+//     filename: (req, file, cb) => {
+//         cb(null, file.fieldname + '_' + Date.now() + path.extname(file.originalname));
+//     }
+// });
+// const upload = multer({
+//     storage: storage
+// }).array('pimage[]');
+
+
 
 const securePassword = async(password) => {
     try {
@@ -167,11 +191,18 @@ const adminBlockUser = async(req,res) => {
 
 const adminPostAddProducts = async(req,res) => {
     try {
+        const files = req.files;
+        if(!files){
+            const error = new Error('Please choose file')
+            error.httpStatusCode = 400
+            return next(error)
+        }
         const product = Product({
             pname: req.body.pname,
-            pprice: req.body.pprice,
+            price: req.body.pprice,
             pdesc: req.body.pdesc,
-            pimage: req.file.filename,
+            pimage: req.files[0] && req.files[0].filename ? req.files[0].filename:"",
+            pimage2: req.files[0] && req.files[0].filename ? req.files[0].filename:"",
             pquantity: req.body.pquantity
         })
         const productData = await product.save();
@@ -217,7 +248,15 @@ const adminEditProducts = async(req,res)=>{
 
 const adminUpdateProduct  = async(req,res)=>{
     try {
-        const updatedData = await Product.findByIdAndUpdate({_id:req.body.id},{$set:{pname:req.body.pname,pprice:req.body.price,pdesc:req.body.pdesc,pquantity:req.body.pquantity}})
+        const updatedData = await Product.findByIdAndUpdate(
+                {_id:req.body.id},
+                {$set:{pname:req.body.pname,
+                price:req.body.price,
+                pdesc:req.body.pdesc,
+                pimage : req.files[0] && req.files[0].filename ? req.files[0].filename:"",
+                pimage2 : req.files[1] && req.files[1].filename ? req.files[1].filename:"",
+                pquantity:req.body.pquantity}})
+                console.log(updatedData);
         res.redirect('/admin/manageProducts')
     } catch (error) {
         console.log(error.message);
@@ -261,11 +300,22 @@ const orderManager = async (req, res) => {
     try {
         const qstatus=req.query.id
         const Orders = await Order.find()
-        res.render('orderManager', {orders:Orders, orderStatus:qstatus})
+        res.render('orderManager', {isLoggedin:req.session.userId,orders:Orders, orderStatus:qstatus})
     } catch (error) {
         console.log(error.message);
     }
 
+}
+
+const viewDetails = async(req,res)=>{
+    try {
+        orderId = req.query.id;
+        const fetchOrderDetails = await Order.findById({_id:orderId}).populate('product.productID')
+        const orderDetail = await Order.findOne({_id:req.query.id})
+        res.render('userOrderDetails',{order:fetchOrderDetails.product,totalPrice:orderDetail})
+    } catch (error) {
+        console.log(error.message);
+    }
 }
 
 const confirmOrder= async(req,res)=>{
@@ -308,8 +358,17 @@ const manageCoupon = async(req,res)=>{
     res.render('couponList',{coupon:couponData})
 }
 
+const confirmReturn = async(req,res)=>{
+    const id=req.query.id
+   const orderData= await Order.findById({_id:id})
+   orderData.status="returned"
+   await orderData.save();
+   res.redirect('/admin/ordermanager')
+}
+
 module.exports = {
-    upload,
+    // upload,
+    store,
     adminHome,
     adminPage,
     adminPost,
@@ -332,5 +391,8 @@ module.exports = {
     orderManager,
     postCoupon,
     addCoupon,
-    manageCoupon
+    manageCoupon,
+    viewDetails,
+    confirmReturn,
+    
 }

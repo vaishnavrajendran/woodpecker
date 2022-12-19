@@ -530,6 +530,10 @@ const validateUser = async (req, res) => {
     }
 }
 
+const orderConfirmation = (req,res)=>{
+    res.render('thankyou');
+}
+
 const selCategories = async (req, res) => {
     const productData = await Product.find({ pcat: req.query.category })
     const categories = await Category.find()
@@ -568,6 +572,14 @@ const addCoupon = async (req, res) => {
     }
 }
 
+const returnOrder = async(req,res)=>{
+    id=req.query.id;
+    console.log(id);
+    const orderDetails = await Order.findByIdAndUpdate({_id:id},{$set:{status:'returnPending'}})
+    orderDetails.save();
+    res.redirect('/userDashboard')
+}
+
 module.exports = {
     securePassword,
     userIndex,
@@ -596,5 +608,7 @@ module.exports = {
     deleteWishlist,
     addCoupon,
     userDeleteWishlist,
-    userDetail
+    userDetail,
+    returnOrder,
+    orderConfirmation
 }

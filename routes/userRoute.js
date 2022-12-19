@@ -72,4 +72,8 @@ userRoute.get('/addCoupon',userController.addCoupon)
 
 userRoute.get('/userDeleteWishlist',userController.userDeleteWishlist)
 
+userRoute.post('/returnOrder',userController.returnOrder)
+
+userRoute.get('/thanks',userController.orderConfirmation)
+
 module.exports = userRoute

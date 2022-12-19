@@ -28,7 +28,7 @@ adminRoute.get('/adminPage', adminController.adminPage)
 
 adminRoute.get('/addProducts',adminController.adminAddProducts)
 
-adminRoute.post('/addProducts',adminController.upload,adminController.adminPostAddProducts)
+adminRoute.post('/addProducts',adminController.store.any(),adminController.adminPostAddProducts)
 
 adminRoute.get('/editUser',adminController.adminEditUser)
 
@@ -38,7 +38,7 @@ adminRoute.get('/manageProducts',adminController.adminManageProducts)
 
 adminRoute.get('/editProduct',adminController.adminEditProducts)
 
-adminRoute.post('/editProduct',adminController.upload,adminController.adminUpdateProduct)
+adminRoute.post('/editProduct',adminController.store.any(),adminController.adminUpdateProduct)
 
 adminRoute.get('/deleteProduct',adminController.deleteProduct)
 
@@ -63,5 +63,9 @@ adminRoute.get('/addCoupon',adminController.addCoupon)
 adminRoute.post('/postCoupon',adminController.postCoupon)
 
 adminRoute.get('/manageCoupon',adminController.manageCoupon)
+
+adminRoute.post('/order-details',adminController.viewDetails)
+
+adminRoute.post('/confirm-return',adminController.confirmReturn)
 
 module.exports = adminRoute

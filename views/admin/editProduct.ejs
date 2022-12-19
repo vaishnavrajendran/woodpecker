@@ -29,17 +29,22 @@
 
          <div class="form-group col-md-6">
             <label for="pprice">Product Price</label>
-            <input name="pprice" type="text" value="<%= product.pprice %>" class="form-control" placeholder="Product Price">
+            <input name="pprice" type="text" value="<%= product.price %>" class="form-control" placeholder="Product Price">
          </div>
          <!-- </div> -->
 
          <div class="form-group col-md-6">
             <label for="">Product Description</label>
-            <input name="pdesc" type="text" value="<%= product.pdesc %>" class=" form-control" placeholder="Product Description">
+            <input name="pdesc" type="text" value="<%= product.pdesc %>" class=" form-control" placeholder="Product Description" >
          </div>
          <div class="form-group col-md-6">
             <label for="">Product Image</label>
-            <input name="pimage" type="file" value="<%= product.pimage %>" class=" form-control" placeholder="Product Image">
+            <input name="pimage" type="file" value="<%= product.pimage %>" class=" form-control" placeholder="Product Image" accept="image/*">
+         </div>
+
+         <div class="form-group col-md-6">
+            <label for="">Product Image 2</label>
+            <input name="pimage" type="file" value="<%= product.pimage %>" class=" form-control" placeholder="Product Image2" accept="image/*">
          </div>
 
          <div class="form-group col-md-6">

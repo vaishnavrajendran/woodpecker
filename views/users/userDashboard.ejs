@@ -10,7 +10,7 @@
     <title>WoodPecker</title>
     <link href="img/titleicon1.png" rel="icon">
     <meta name="keywords" content="HTML5 Template">
-    <meta name="description" content="Molla - Bootstrap eCommerce Template">
+    <meta name="description" content="WoodPecker">
     <meta name="author" content="p-themes">
     <!-- Favicon -->
     <link rel="apple-touch-icon" sizes="180x180" href="assets/images/icons/apple-touch-icon.png">
@@ -144,6 +144,7 @@
                                                 <th scope="col" >Payment Type</th>
                                                 <th scope="col">Amount</th>
                                                 <th scope="col">Status</th>
+                                                <th scope="col">Return</th>
                                                 <th scope="col">Details</th>
                                               </tr>
                                             </thead>
@@ -153,10 +154,15 @@
                                                 <td><h6><%=order[i-1].payment %></h6></td>
                                                 <td><h6><%=order[i-1].totalPrice %></h6></td>
                                                 <td><h6><%=order[i-1].status %></h6></td>
-                                                <form action="/orderdetails?id=<%=order[i-1]._id %>" method="post">
-                                                    <td><button type="submit" class="btn-primary">Details</button></td>
+                                                <%if(order[i-1].status=='delivered'){ %>
+                                                    <form action="/returnOrder?id=<%=order[i-1]._id%>" method="post">
+                                                    <td><button type="submit" >Apply</button></td>    
                                                     </form>
-                                               
+                                                <%}else if(order[i-1].status=='returnPending'){%>
+                                                    <td><h6>Applied</h6></td>
+                                                <%}else if(order[i-1].status=='billed'||order[i-1].status=='pending'){%>                  
+                                                    <td class="text-center">---</td>
+                                                <%}%>  
                                               </tr>
                                               <% }} else{ %>
                                                 <p>No order has been made yet.</p>
