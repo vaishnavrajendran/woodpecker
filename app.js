@@ -30,7 +30,7 @@ const { cache } = require('ejs');
 app.use('/admin', adminRoute)
 
 app.use(function (req, res) {
-    res.status(404).redirect("/");
+    res.status(404).render("users/404page.ejs");
   });
 
 app.listen(3000, function () {
