@@ -11,7 +11,7 @@ const Category = require('../models/categoryModel')
 const Order = require('../models/checkoutModel')
 const Coupon = require('../models/couponModel');
 const { orderDetails } = require('./userController');
-const async = require('hbs/lib/async');
+
 
 
 // const storage = multer.diskStorage({
