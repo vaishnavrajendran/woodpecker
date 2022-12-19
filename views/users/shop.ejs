@@ -13,7 +13,8 @@
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
 
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
@@ -27,134 +28,219 @@
 
 <body>
     <!-- Topbar Start -->
-    <% if(isLoggedin) {
-        %>
+    <% if(isLoggedin) { %>
         <%- include('../partials/userHeader') %>
-        <% }else { %>
-        <%- include('../partials/normalHeader') %>
-    <% } %>
-    <!-- Navbar End -->
+            <% }else { %>
+                <%- include('../partials/normalHeader') %>
+                    <% } %>
+                        <!-- Navbar End -->
 
 
-    <!-- Page Header Start -->
-    <div class="container-fluid bg-secondary mb-5">
-        <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 200px">
-            <h1 class="font-weight-semi-bold text-uppercase mb-3">Our Shop</h1>
-            <div class="d-inline-flex">
-                <p class="m-0"><a href="/">Home</a></p>
-                <p class="m-0 px-2">-</p>
-                <p class="m-0">Shop</p>
-            </div>
-        </div>
-    </div>
-    <!-- Page Header End -->
+                        <!-- Page Header Start -->
+                        <div class="container-fluid bg-secondary mb-5">
+                            <div class="d-flex flex-column align-items-center justify-content-center"
+                                style="min-height: 200px">
+                                <h1 class="font-weight-semi-bold text-uppercase mb-3">Our Shop</h1>
+                                <div class="d-inline-flex">
+                                    <p class="m-0"><a href="/">Home</a></p>
+                                    <p class="m-0 px-2">-</p>
+                                    <p class="m-0">Shop</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Page Header End -->
 
 
-    <!-- Shop Start -->
-    <div class="container-fluid pt-2">
-        <div class="row px-xl-5">
-            <!-- Shop Product Start -->
-            <div class="col-lg-12 col-md-12">
-                <div class="row pb-3">
-                    <div class="col-12 pb-1">
-                        <div class="d-flex align-items-center justify-content-between mb-4">
-                            <form action="">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Search by name">
-                                    <div class="input-group-append">
-                                        <span class="input-group-text bg-transparent text-primary">
-                                            <i class="fa fa-search"></i>
-                                        </span>
+                        <!-- Shop Start -->
+                        <div class="container-fluid pt-2">
+                            <div class="row px-xl-5">
+                                <!-- Shop Product Start -->
+                                <div class="col-lg-12 col-md-12">
+                                    <div class="row pb-3">
+                                        <div class="col-12 pb-1">
+                                            <div class="d-flex align-items-center justify-content-between mb-4">
+                                                <form action="">
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control"
+                                                            placeholder="Search by name">
+                                                        <div class="input-group-append">
+                                                            <span class="input-group-text bg-transparent text-primary">
+                                                                <i class="fa fa-search"></i>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                                <div class="dropdown ml-4">
+                                                    <button class="btn border dropdown-toggle" type="button"
+                                                        id="triggerId" data-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false">
+                                                        Sort by
+                                                    </button>
+                                                    <div class="dropdown-menu dropdown-menu-right"
+                                                        aria-labelledby="triggerId">
+                                                        <% if(category.length>0) { %>
+                                                            <% for(let i=1;i<=category.length;i++){ %>
+                                                                <a class="dropdown-item"
+                                                                    href="/sel-categories?category=<%=category[i-1].categories%>"><%=category[i-1].categories%></a>
+                                                                <%}}%>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <%if(product.length>0){
+                                            for(let i=1;i<=product.length;i++){%>
+                                                <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
+                                                    <div class="card product-item border-0 mb-4">
+                                                        <div
+                                                            class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
+                                                            <a href="/viewDetail?id=<%=product[i-1]._id %>">
+                                                                <img class="img-fluid w-100"
+                                                                    src="./productImages/<%= product[i-1].pimage %>"
+                                                                    alt="">
+                                                            </a>
+                                                        </div>
+                                                        <div
+                                                            class="card-body border-left border-right text-center p-0 pt-4 pb-3">
+                                                            <h6 class="text-truncate mb-3">
+                                                                <%= product[i-1].pname %>
+                                                            </h6>
+                                                            <div class="d-flex justify-content-center">
+                                                                <h6>₹<%= product[i-1].price %>
+                                                                </h6>
+                                                                <h6 class="text-muted ml-2"><del>₹4000</del></h6>
+                                                            </div>
+                                                        </div>
+                                                        <div
+                                                            class="card-footer d-flex justify-content-between bg-light border">
+                                                            <button onclick="addToWishlist('<%= product[i-1]._id %>')"
+                                                                class="btn btn-sm text-dark p-0">
+                                                                <i class="fas fa-heart text-primary mr-1"></i>Add to
+                                                                Wishlist</button>
+                                                            <button onclick="addToCart('<%= product[i-1]._id %>')"
+                                                                class="btn btn-sm text-dark p-0"><i
+                                                                    class="fas fa-shopping-cart text-primary mr-1"></i>Add
+                                                                To Cart</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <% } %>
+                                                    <% } %>
+                                                        <div class="col-12 pb-1">
+                                                            <nav aria-label="Page navigation">
+                                                                <ul class="pagination justify-content-center mb-3">
+                                                                    <li class="page-item disabled">
+                                                                        <a class="page-link" href="#"
+                                                                            aria-label="Previous">
+                                                                            <span aria-hidden="true">&laquo;</span>
+                                                                            <span class="sr-only">Previous</span>
+                                                                        </a>
+                                                                    </li>
+                                                                    <li class="page-item active"><a class="page-link"
+                                                                            href="#">1</a></li>
+                                                                    <li class="page-item"><a class="page-link"
+                                                                            href="#">2</a></li>
+                                                                    <li class="page-item"><a class="page-link"
+                                                                            href="#">3</a></li>
+                                                                    <li class="page-item">
+                                                                        <a class="page-link" href="#" aria-label="Next">
+                                                                            <span aria-hidden="true">&raquo;</span>
+                                                                            <span class="sr-only">Next</span>
+                                                                        </a>
+                                                                    </li>
+                                                                </ul>
+                                                            </nav>
+                                                        </div>
                                     </div>
                                 </div>
-                            </form>
-                            <div class="dropdown ml-4">
-                                <button class="btn border dropdown-toggle" type="button" id="triggerId" data-toggle="dropdown" aria-haspopup="true"
-                                        aria-expanded="false">
-                                            Sort by
-                                        </button>
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="triggerId">
-                                    <% if(category.length>0) { %>
-                                            <% for(let i=1;i<=category.length;i++){ %>
-                                    <a class="dropdown-item" href="/sel-categories?category=<%=category[i-1].categories%>"><%=category[i-1].categories%></a>
-                                    <%}}%>
-                                </div>
+                                <!-- Shop Product End -->
                             </div>
                         </div>
-                    </div>
-                    <%if(product.length>0){
-                        for(let i=1;i<=product.length;i++){%>
-                    <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
-                        <div class="card product-item border-0 mb-4">
-                            <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                                <a href="/viewDetail?id=<%=product[i-1]._id %>">
-                                    <img class="img-fluid w-100" src="./productImages/<%= product[i-1].pimage %>" alt="">
-                                </a>
-                            </div>
-                            <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
-                                <h6 class="text-truncate mb-3"><%= product[i-1].pname %></h6>
-                                <div class="d-flex justify-content-center">
-                                    <h6>₹<%= product[i-1].price %></h6><h6 class="text-muted ml-2"><del>₹4000</del></h6>
-                                </div>
-                            </div>
-                            <div class="card-footer d-flex justify-content-between bg-light border">
-                                <a href="/addToWishlist?id=<%=product[i-1]._id %>" class="btn btn-sm text-dark p-0"><i class="fas fa-heart text-primary mr-1"></i>Add to Wishlist</a>
-                                <a href="/addToCart?id=<%= product[i-1]._id %>" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
-                            </div>
-                        </div>
-                    </div>
-                    <% } %>
-                    <% } %>
-                    <div class="col-12 pb-1">
-                        <nav aria-label="Page navigation">
-                          <ul class="pagination justify-content-center mb-3">
-                            <li class="page-item disabled">
-                              <a class="page-link" href="#" aria-label="Previous">
-                                <span aria-hidden="true">&laquo;</span>
-                                <span class="sr-only">Previous</span>
-                              </a>
-                            </li>
-                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item">
-                              <a class="page-link" href="#" aria-label="Next">
-                                <span aria-hidden="true">&raquo;</span>
-                                <span class="sr-only">Next</span>
-                              </a>
-                            </li>
-                          </ul>
-                        </nav>
-                    </div>
-                </div>
-            </div>
-            <!-- Shop Product End -->
-        </div>
-    </div>
-    <!-- Shop End -->
+                        <!-- Shop End -->
 
 
-    <!-- Footer Start -->
-    <%- include('../partials/userFooter') %>
-    <!-- Footer End -->
+                        <!-- Footer Start -->
+                        <%- include('../partials/userFooter') %>
+                            <!-- Footer End -->
 
 
-    <!-- Back to Top -->
-    <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
+                            <!-- Back to Top -->
+                            <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
 
+                            <!--sweet alert-->
+                            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+                            <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                            <script>
+                                function addToCart(productId) {
+                                    $.ajax({
+                                        url: '/addToCart?id=' + productId,
+                                        method: 'GET',
+                                        success: function (response) {
+                                            if (response.status) {
+                                                Swal.fire({
+                                                    position: 'centre',
+                                                    icon: 'success',
+                                                    title: 'Product is added to the cart',
+                                                    showConfirmButton: false,
+                                                    timer: 1500,
+                                                });
+                                                let count = $('#cart-count').html();
+                                                count = parseInt(count) + 1;
+                                                $('#cart-count').html(count);
+                                            } else {
+                                                Swal.fire({
+                                                    position: 'center',
+                                                    icon: 'error',
+                                                    title: 'Please LOGIN',
+                                                    showConfirmButton: false,
+                                                    timer: 1500,
+                                                });
+                                            }
+                                        },
+                                    });
+                                }
 
-    <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
-    <script src="lib/easing/easing.min.js"></script>
-    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+                                function addToWishlist(productId) {
+                                    $.ajax({
+                                        url: '/addToWishlist?id=' + productId,
+                                        method: 'get',
+                                        success: (response) => {
+                                            if (response.status) {
+                                                Swal.fire({
+                                                    position: 'centre',
+                                                    icon: 'success',
+                                                    title: 'Added to wishlist',
+                                                    showConfirmButton: false,
+                                                    timer: 1500,
+                                                });
+                                                let count = $('#wish-count').html();
+                                                count = parseInt(count);
+                                                $('#wish-count').html(count);
+                                            } else {
+                                                Swal.fire({
+                                                    position: 'center',
+                                                    icon: 'error',
+                                                    title: 'Please LOGIN',
+                                                    showConfirmButton: false,
+                                                    timer: 1500,
+                                                });
+                                            }
+                                        },
+                                    });
+                                }  
+                            </script>
+                            <!-- JavaScript Libraries -->
+                            <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+                            <script
+                                src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+                            <script src="lib/easing/easing.min.js"></script>
+                            <script src="lib/owlcarousel/owl.carousel.min.js"></script>
 
-    <!-- Contact Javascript File -->
-    <script src="mail/jqBootstrapValidation.min.js"></script>
-    <script src="mail/contact.js"></script>
+                            <!-- Contact Javascript File -->
+                            <script src="mail/jqBootstrapValidation.min.js"></script>
+                            <script src="mail/contact.js"></script>
 
-    <!-- Template Javascript -->
-    <script src="js/main.js"></script>
+                            <!-- Template Javascript -->
+                            <script src="js/main.js"></script>
 </body>
 
 </html>

@@ -291,11 +291,13 @@ const addToWishlist = async (req, res) => {
                 //     userID:userSession.userId,
                 //     'product.productID':productId},
                 //     {$inc:{'product.$.quantity':1}})
-                res.redirect('/');
+                // res.redirect('/');
+                res.json({ status: true });
             } else {
                 const addItem = await Wishlist.updateOne({ userID: req.session.userId },
                     { $push: { product: { 'productID': productId } } })
-                res.redirect('/');
+                // res.redirect('/');
+                res.json({ status: true });
             }
         }
         else {
@@ -306,7 +308,8 @@ const addToWishlist = async (req, res) => {
                 }]
             })
             const wishlistData = await wishlist.save();
-            res.redirect('/');
+            // res.redirect('/');
+            res.json({ status: true });
         }
     } catch (error) {
         console.log(error.message);
@@ -351,12 +354,14 @@ const addToCart = async (req, res, next) => {
                     'product.productID': productId
                 },
                     { $inc: { 'product.$.quantity': 1 } })
-                res.redirect('/')
+                // res.redirect('/')
+                res.json({ status: true });
 
             } else {
                 const pushQuantity = await Cart.updateOne({ userID: req.session.userId },
                     { $push: { product: { 'productID': productId, 'quantity': 1 } } })
-                res.redirect('/');
+                // res.redirect('/');
+                res.json({ status: true });
 
             }
         }
@@ -369,8 +374,49 @@ const addToCart = async (req, res, next) => {
                 }]
             })
             await cart.save();
-            res.redirect('/');
+            // res.redirect('/');
+            res.json({ status: true });
+        }
 
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+const moveToCart = async(req,res)=>{
+    try {
+        const productId = req.query.id
+        // userSession = req.session
+        const checkCart = await Cart.findOne({ userID: req.session.userId })
+        if (checkCart != null) {
+            const prodCheck = await Cart.findOne({
+                userID: req.session.userId,
+                'product.productID': productId
+            });
+
+            if (prodCheck != null) {
+                const increaseQuantity = await Cart.updateOne({
+                    userID: req.session.userId,
+                    'product.productID': productId
+                },
+                    { $inc: { 'product.$.quantity': 1 } })
+                res.redirect('/cart')
+            } else {
+                const pushQuantity = await Cart.updateOne({ userID: req.session.userId },
+                    { $push: { product: { 'productID': productId, 'quantity': 1 } } })
+                res.redirect('/cart');
+            }
+        }
+        else {
+            const cart = new Cart({
+                userID: req.session.userId,
+                product: [{
+                    productID: productId,
+                    quantity: 1
+                }]
+            })
+            await cart.save();
+            res.redirect('/cart');
         }
 
     } catch (error) {
@@ -580,6 +626,7 @@ const returnOrder = async(req,res)=>{
     res.redirect('/userDashboard')
 }
 
+
 module.exports = {
     securePassword,
     userIndex,
@@ -610,5 +657,6 @@ module.exports = {
     userDeleteWishlist,
     userDetail,
     returnOrder,
-    orderConfirmation
+    orderConfirmation,
+    moveToCart
 }

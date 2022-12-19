@@ -78,7 +78,7 @@
                                  <%=wishlist[i-1].productID.pname %></td>
                              <td class="align-middle text-center">₹<%=wishlist[i-1].productID.price %></td>
                              <td class="align-middle text-center">
-                                <a href="/addToCart?id=<%= wishlist[i-1].productID._id %>" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Move To Cart</a>
+                                <a href="/moveToCart?id=<%= wishlist[i-1].productID._id %>" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Move To Cart</a>
                              </td>
                              <td class="align-middle text-center"><a href="/userDeleteWishlist?id=<%=wishlist[i-1]._id %>"><button class="btn btn-sm btn-primary"><i
                                          class="fa fa-times"></i></button></a></td>

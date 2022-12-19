@@ -42,7 +42,7 @@ userRoute.get('/checkout',userController.userCheckout)
 
 userRoute.get('/contact',userController.userContact)
 
-userRoute.get('/addToCart',auth.isLogin,userController.deleteWishlist,userController.addToCart)
+userRoute.get('/addToCart',auth.isLogin,userController.addToCart)
 
 userRoute.post('/deleteCart',userController.deleteCart)
 
@@ -67,6 +67,8 @@ userRoute.get('/sel-categories',userController.selCategories)
 userRoute.get('/wishlist',auth.isLogin,userController.wishlist)
 
 userRoute.get('/addToWishlist',userController.addToWishlist)
+
+userRoute.get('/moveToCart',userController.deleteWishlist,userController.moveToCart)
 
 userRoute.get('/addCoupon',userController.addCoupon)
 

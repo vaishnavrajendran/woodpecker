@@ -25,7 +25,7 @@
     <!-- Customized Bootstrap Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
 
-  
+
     <!--Sweet Alert-->
     <script src="https://code.jquery.com/jquery-3.6.1.min.js"
         integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
@@ -159,14 +159,14 @@
                                                     </div>
                                                 </div>
                                                 <div class="card-footer d-flex justify-content-between bg-light border">
-                                                    <a href="/addToWishlist?id=<%=product[i-1]._id %>"
-                                                        class="btn btn-sm text-dark p-0"><i
-                                                            class="fas fa-heart text-primary mr-1"></i>Add to
-                                                        Wishlist</a>
-                                                    <a href="/addToCart?id=<%= product[i-1]._id %>"
-                                                        class="btn btn-sm text-dark p-0"><i
-                                                            class="fas fa-shopping-cart text-primary mr-1"></i>Add To
-                                                        Cart</a>
+                                                    <button onclick="addToWishlist('<%= product[i-1]._id %>')"
+                                                            class="btn btn-sm text-dark p-0"><i
+                                                                class="fas fa-heart text-primary mr-1"></i>Add to
+                                                            Wishlist</button>
+                                                        <button onclick="addToCart('<%= product[i-1]._id %>')"
+                                                            class="btn btn-sm text-dark p-0"><i
+                                                                class="fas fa-shopping-cart text-primary mr-1"></i>Add
+                                                            To Cart</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -237,14 +237,14 @@
                                                     </div>
                                                     <div
                                                         class="card-footer d-flex justify-content-between bg-light border">
-                                                        <a href="/addToWishlist?id=<%=product[i-1]._id %>"
+                                                        <button onclick="addToWishlist('<%= product[i-1]._id %>')"
                                                             class="btn btn-sm text-dark p-0"><i
                                                                 class="fas fa-heart text-primary mr-1"></i>Add to
-                                                            Wishlist</a>
-                                                        <a href="/addToCart?id=<%= product[i-1]._id %>"
+                                                            Wishlist</button>
+                                                        <button onclick="addToCart('<%= product[i-1]._id %>')"
                                                             class="btn btn-sm text-dark p-0"><i
                                                                 class="fas fa-shopping-cart text-primary mr-1"></i>Add
-                                                            To Cart</a>
+                                                            To Cart</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -316,27 +316,91 @@
                             </div>
                             <!-- Vendor End -->
                         </div>
-                            <!--footer-->
-                            <%- include('../partials/userFooter') %>
-
-                                <!-- Back to Top -->
-                                <a href="#" class="btn btn-primary back-to-top"><i
-                                        class="fa fa-angle-double-up"></i></a>
+                        <!--footer-->
+                        <%- include('../partials/userFooter') %>
 
 
-                                <!-- JavaScript Libraries -->
-                                <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-                                <script
-                                    src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
-                                <script src="lib/easing/easing.min.js"></script>
-                                <script src="lib/owlcarousel/owl.carousel.min.js"></script>
 
-                                <!-- Contact Javascript File -->
-                                <script src="mail/jqBootstrapValidation.min.js"></script>
-                                <script src="mail/contact.js"></script>
 
-                                <!-- Template Javascript -->
-                                <script src="js/main.js"></script>
+                            <!-- Back to Top -->
+                            <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
+                            <!--sweet alert-->
+                            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+                            <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+                            <!-- JavaScript Libraries -->
+                            <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+                            <script
+                                src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+                            <script src="lib/easing/easing.min.js"></script>
+                            <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+
+                            <!-- Contact Javascript File -->
+                            <script src="mail/jqBootstrapValidation.min.js"></script>
+                            <script src="mail/contact.js"></script>
+
+                            <script>
+                                function addToCart(productId) {
+                                    $.ajax({
+                                        url: '/addToCart?id=' + productId,
+                                        method: 'GET',
+                                        success: function (response) {
+                                            if (response.status) {
+                                                Swal.fire({
+                                                    position: 'centre',
+                                                    icon: 'success',
+                                                    title: 'Product is added to the cart',
+                                                    showConfirmButton: false,
+                                                    timer: 1500,
+                                                });
+                                                let count = $('#cart-count').html();
+                                                count = parseInt(count) + 1;
+                                                $('#cart-count').html(count);
+                                            } else {
+                                                Swal.fire({
+                                                    position: 'center',
+                                                    icon: 'error',
+                                                    title: 'Please LOGIN',
+                                                    showConfirmButton: false,
+                                                    timer: 1500,
+                                                });
+                                            }
+                                        },
+                                    });
+                                }
+
+                                function addToWishlist(productId) {
+                                    $.ajax({
+                                        url: '/addToWishlist?id=' + productId,
+                                        method: 'get',
+                                        success: (response) => {
+                                            if (response.status) {
+                                                Swal.fire({
+                                                    position: 'centre',
+                                                    icon: 'success',
+                                                    title: 'Added to wishlist',
+                                                    showConfirmButton: false,
+                                                    timer: 1500,
+                                                });
+                                                let count = $('#wish-count').html();
+                                                count = parseInt(count);
+                                                $('#wish-count').html(count);
+                                            } else {
+                                                Swal.fire({
+                                                    position: 'center',
+                                                    icon: 'error',
+                                                    title: 'Please LOGIN',
+                                                    showConfirmButton: false,
+                                                    timer: 1500,
+                                                });
+                                            }
+                                        },
+                                    });
+                                }  
+                            </script>
+
+                            <!-- Template Javascript -->
+                            <script src="js/main.js"></script>
 </body>
 
 </html>
