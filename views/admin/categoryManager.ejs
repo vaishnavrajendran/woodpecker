@@ -38,6 +38,13 @@
 </head>
 <body>
   <div class="container mt-4 col-lg-5">
+    <div class="ml-auto pb-5">
+      <h3>Add Categories</h3>
+      <form action="/admin/addcategory" method="post">
+        <input name="category" type="text" placeholder="Add Category">
+        <button type="submit">Add</button>
+      </form>
+    </div>
     <table class="table" id="myTable">
         <thead class="thead-dark">
           <tr>

@@ -29,5 +29,12 @@ const productSchema = mongoose.Schema({
         type:String,
         required:true
     },
+    qty:{
+        type:Number,
+    },
+    isAvailable:{
+        type:Number,
+        default:0
+    }
 })
 module.exports = mongoose.model('Product',productSchema)

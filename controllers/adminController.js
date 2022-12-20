@@ -59,10 +59,10 @@ const securePassword = async(password) => {
 const adminHome = async(req,res) => {
     try {
         if (req.session.adminId) {
-        categoryData = await Category.find()
+        categoryDatas = await Category.find()
         let categoryNames = [];
         let categoryCount = [];
-        for(let key of categoryData){
+        for(let key of categoryDatas){
             categoryNames.push(key.categories);
             categoryCount.push('0');
         }
@@ -72,20 +72,41 @@ const adminHome = async(req,res) => {
             let populatedDetails = await key.populate('product.productID')
             orderHistory.push(populatedDetails)
         }
-        for(let i=0;i<orderDetail.length;i++){
-            for(let j=0;j<orderDetail[i].product.length;j++){
-                    let fetchedCategory = orderDetail[i].product[j].productID.pcat;
+        for(let i=0;i<orderHistory.length;i++){
+            for(let j=0;j<orderHistory[i].product.length;j++){
+                    let fetchedCategory = orderHistory[i].product[j].productID.pcat;
                     let isExisting = categoryNames.findIndex(category =>{
                     return category === fetchedCategory;
                 })
                 categoryCount[isExisting]++
             }
         }
-        console.log(categoryNames);
-        console.log(categoryCount);
-        console.log(typeof(categoryNames));
-        console.log(typeof(categoryCount));
-        res.render('adminPage',{isLoggedin:req.session.adminId,name:categoryNames,count:categoryCount})
+        productDetails = await Product.find();
+        let productNames = [];
+        let salesCount = [];
+        for(let key of productDetails){
+            productNames.push(key.pname);
+            salesCount.push('0');
+        }
+        let orderHistorys = [];
+        orderDocs = await Order.find()
+        for(let key of orderDocs){
+            let populatedDetail = await key.populate('product.productID')
+            orderHistorys.push(populatedDetail)
+        }
+        for(let k=0;k<orderHistorys.length;k++){
+            for(let l=0;l<orderHistorys[k].product.length;l++){
+                    let fetchedCategorys = orderHistorys[k].product[l].productID.pname;
+                    let isExisting = productNames.findIndex(category =>{
+                    return category === fetchedCategorys;
+                })
+                salesCount[isExisting]++
+            }
+        }
+        console.log(salesCount);
+        console.log(productNames);
+        
+        res.render('adminPage',{isLoggedin:req.session.adminId,name:categoryNames,count:categoryCount,sales:salesCount,names:productNames})
         } else {
             res.redirect('/admin/login')
         }
@@ -202,7 +223,7 @@ const adminPostAddProducts = async(req,res) => {
             price: req.body.pprice,
             pdesc: req.body.pdesc,
             pimage: req.files[0] && req.files[0].filename ? req.files[0].filename:"",
-            pimage2: req.files[0] && req.files[0].filename ? req.files[0].filename:"",
+            pimage2: req.files[1] && req.files[1].filename ? req.files[1].filename:"",
             pquantity: req.body.pquantity
         })
         const productData = await product.save();
@@ -266,7 +287,7 @@ const adminUpdateProduct  = async(req,res)=>{
 const deleteProduct = async(req,res)=>{
     try {
         const id = req.query.id;
-        await Product.deleteOne({_id:id})
+        await Product.updateOne({_id:id},{$set:{isAvailable:1}})
         res.redirect('/admin/manageProducts')
     } catch (error) {
         console.log(error.message);
@@ -366,6 +387,36 @@ const confirmReturn = async(req,res)=>{
    res.redirect('/admin/ordermanager')
 }
 
+const salesReport = async(req,res)=>{
+    const productData = await Product.find();
+    categoryData = await Category.find()
+        let productNames = [];
+        let salesCount = [];
+        for(let key of productData){
+            productNames.push(key.pname);
+            salesCount.push('0');
+        }
+        let orderHistorys = [];
+        orderDetail = await Order.find()
+        for(let key of orderDetail){
+            let populatedDetail = await key.populate('product.productID')
+            orderHistorys.push(populatedDetail)
+        }
+        for(let i=0;i<orderHistorys.length;i++){
+            for(let j=0;j<orderHistorys[i].product.length;j++){
+                    let fetchedCategorys = orderHistorys[i].product[j].productID.pname;
+                    let isExisting = productNames.findIndex(category =>{
+                    return category === fetchedCategorys;
+                })
+                salesCount[isExisting]++
+            }
+        }
+        console.log(salesCount);
+        console.log(productNames);
+        
+    res.render('salesReport',{product:productData,sales:salesCount})
+}
+
 module.exports = {
     // upload,
     store,
@@ -394,5 +445,5 @@ module.exports = {
     manageCoupon,
     viewDetails,
     confirmReturn,
-    
+    salesReport
 }

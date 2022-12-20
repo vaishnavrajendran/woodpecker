@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="img/titleicon1.png" rel="icon">
+    <title>WoodPecker</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+    integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container mt-5">
+    <table class="table align-middle mb-0 bg-white">
+        <thead class="bg-light">
+          <tr>
+            <th>Product</th>
+            <th>Category</th>
+            <th>Quantity Sold</th>
+            <th>Total Price</th>
+          </tr>
+        </thead>
+        <tbody>
+            <%for(let i=1;i<=product.length;i++){%>
+          <tr>
+            <td>
+              <div class="d-flex align-items-center">
+                
+                <img
+                    src="./productImages/<%= product[i-1].pimage %>"
+                    alt=""
+                    style="width: 45px; height: 45px"
+                    class="rounded-circle"
+                    />
+                    
+                <div class="ms-3">
+                  <p class="fw-bold mb-1 ml-3"><%= product[i-1].pname %></p>
+                  <p class="text-muted mb-0 ml-3">Price: ₹<%= product[i-1].price %></p>
+                </div>
+              </div>
+            </td>
+            <td>
+              <p class="fw-normal mb-1"><%= product[i-1].pcat %></p>
+              <p class="text-muted mb-0">Quantity:<%= product[i-1].pquantity %></p>
+            </td>
+            <td>
+                <div>
+                    <input type="hidden" value="<%sales%>" id="sales">
+                    <script type="text/javascript">
+                        const sales = document.getElementById('sales');
+                        console.log(sales,'1');
+                        const salesArray = sales.value.split(',');
+                        console.log(salesArray,'2');
+                    </script>
+                    <p class="text-muted mb-0"><%= product[i-1].qty %></p>
+                </div>
+            </td>
+            <td>
+                <p class="text-muted mb-0 ml-3">₹<%= product[i-1].price*product[i-1].qty %></p>
+            </td>
+            
+          </tr>
+          <%}%>
+          
+        </tbody>
+      </table>
+      </div>
+</body>
+</html>

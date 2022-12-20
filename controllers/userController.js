@@ -67,6 +67,7 @@ const userIndex = async (req, res) => {
 
         productSearch = await Product.find({
             isVerified: 1,
+            isAvailable:0,
             $or: [
                 { pname: { $regex: '.*' + search + '.*', $options: 'i' } },
                 { pdesc: { $regex: '.*' + search + '.*', $options: 'i' } }
@@ -107,6 +108,7 @@ const userShop = async (req, res) => {
         const categories = await Category.find()
         const productSearch = await Product.find({
             isVerified: 1,
+            isAvailable:0,
             $or: [
                 { pname: { $regex: '.*' + search + '.*', $options: 'i' } },
                 { pdesc: { $regex: '.*' + search + '.*', $options: 'i' } }

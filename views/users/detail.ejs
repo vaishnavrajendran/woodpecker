@@ -26,7 +26,8 @@
     <link href="css/style.css" rel="stylesheet">
 
     <!--Image Zoom-->
-    <script src="https://unpkg.com/js-image-zoom@0.4.1/js-image-zoom.js" type="application/javascript"></script>
+    <script src="https://unpkg.com/js-image-zoom@0.7.0/js-image-zoom.js" type="application/javascript"></script>
+
 </head>
 
 <body>
@@ -54,14 +55,7 @@
                         <!-- Page Header End -->
 
                         <!--Image Zoom-->
-                        <script>
-                            var options2 = {
-                                fillContainer: true,
-                                offset: { vertical: 0, horizontal: 10 }
-                            };
-                            new ImageZoom(document.getElementById("img-container"), options2);
-
-                        </script>
+                 
 
                         <!-- Shop Detail Start -->
                         <div class="container-fluid py-5">
@@ -71,11 +65,11 @@
                                         <div class="col-lg-5 pb-5">
                                             <div id="product-carousel" class="carousel slide" data-ride="carousel">
                                                 <div class="carousel-inner border">
-                                                    <div id="img-container" class="carousel-item active">
+                                                    <div id="img-container" class="carousel-item active" style="z-index: 1;">
                                                         <img class="w-100 h-100"
                                                             src="./productImages/<%=product[i-1].pimage%>" alt="Image">
                                                     </div>
-                                                    <div id="img-container" class="carousel-item">
+                                                    <div class="carousel-item">
                                                         <img class="w-100 h-100"
                                                             src="./productImages/<%=product[i-1].pimage2%>" alt="Image">
                                                     </div>
@@ -89,6 +83,14 @@
                                                     <i class="fa fa-2x fa-angle-right text-dark"></i>
                                                 </a>
                                             </div>
+                                            <script>
+                            var options2 = {
+                                fillContainer: true,
+                                offset: { vertical: 0, horizontal: 10 }
+                            };
+                            new ImageZoom(document.getElementById("img-container"), options2);
+
+                        </script>
                                         </div>
 
                                         <div class="col-lg-7 pb-5 p-5">

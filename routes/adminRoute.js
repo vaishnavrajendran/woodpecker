@@ -68,4 +68,6 @@ adminRoute.post('/order-details',adminController.viewDetails)
 
 adminRoute.post('/confirm-return',adminController.confirmReturn)
 
+adminRoute.get('/salesReport',adminController.salesReport)
+
 module.exports = adminRoute
