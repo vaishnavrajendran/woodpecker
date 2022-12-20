@@ -13,11 +13,16 @@
 </head>
    
 <body>
+   <div class="px-5">
+      <% if(isLoggedin) {
+         %>
+         <%- include('../partials/adminHeader') %>
+      <% } %>
+   </div>
    <div class="container">
       <form action="/admin/editProduct" method="post" enctype="multipart/form-data">
-         <h2 class="align-items-center" style="color: rgb(127, 6, 26);">EShopper</h2>
          <!-- <div class = "form-row"> -->
-         <div class="form-group col-md-6 ">
+         <div class="form-group col-md-6 pt-3">
             <% if(typeof message !=='undefined' ){ %>
                <p style="color: green;">
                   <%= message %>

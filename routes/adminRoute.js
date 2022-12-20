@@ -48,7 +48,7 @@ adminRoute.post('/addcategory', adminController.addCategory)
 
 adminRoute.post('/delcategory',adminController.deleteCategory)
 
-adminRoute.get('/ordermanager', adminController.orderManager)
+adminRoute.get('/cat-sel?id=all', adminController.orderManager)
 
 adminRoute.post('/confirm-order', adminController.confirmOrder)
 

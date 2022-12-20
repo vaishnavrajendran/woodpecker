@@ -10,6 +10,12 @@
     integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 </head>
 <body>
+    <div class="px-5">
+        <% if(isLoggedin) {
+           %>
+           <%- include('../partials/adminHeader') %>
+        <% } %>
+     </div>
     <div class="container mt-5">
     <table class="table align-middle mb-0 bg-white">
         <thead class="bg-light">

@@ -37,6 +37,12 @@
    
 </head>
 <body>
+  <div class="px-5">
+    <% if(isLoggedin) {
+       %>
+       <%- include('../partials/adminHeader') %>
+    <% } %>
+ </div>
   <div class="container mt-4 col-lg-5">
     <div class="ml-auto pb-5">
       <h3>Add Categories</h3>

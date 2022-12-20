@@ -8,12 +8,13 @@
 </div> -->
 
     <!-- Topbar Start -->
+
     <div class="container-fluid">
-        <div class="row align-items-center py-3 px-xl-5">
+        <div class="row align-items-center  py-3 px-xl-5">
             <div class="col-lg-3 d-none d-lg-block">
                 <a href="/admin" class="text-decoration-none">
-                    <h1 class="m-0 display-5 font-weight-semi-bold"><span
-                            class="text-primary font-weight-bold border px-1">W</span>oodPecker</h1>
+                    <h1 class="m-0 display-5 font-weight-semi-bold"><span style="color: red;"
+                            class="mt-2 text-primary font-weight-bold border px-1">W</span>oodPecker</h1>
                 </a>
             </div>
             <div class="col-lg-6 col-6 text-left">
@@ -28,8 +29,8 @@
                     </div>
                 </form>
             </div>
-            <div class="navbar-nav ml-auto py-0">
-                <a href="/admin/logout" class="nav-item nav-link "  onclick="return confirm('Are you sure to logout ?')">Logout</a>
+            <div class="navbar-nav ml-auto ">
+                <a href="/admin/logout" class="nav-item nav-link ml-auto"  onclick="return confirm('Are you sure to logout ?')">Logout</a>
                 <!-- <a href="/register" class="nav-item nav-link">Register</a> -->
             </div>
         </div>
@@ -37,12 +38,12 @@
     <!-- Topbar End -->
 
     <!-- Navbar Start -->
-    <div class="container-fluid mb-5">
-        <div class="row border-top px-xl-5">
+    <div class="container-fluid mb-1 ">
+        <div class="row px-xl-5">
             <div class="col-lg-9">
                 <nav class="navbar navbar-expand-lg bg-light navbar-light py-3 py-lg-0 px-0">
                     <a href="/admin" class="text-decoration-none d-block d-lg-none">
-                        <h1 class="m-0 display-5 font-weight-semi-bold"><span
+                        <h1 class="m-0 display-5 font-weight-semi-bold"><span style="color: red;"
                                 class="text-primary font-weight-bold border px-1">W</span>oodPecker</h1>
                     </a>
                     <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
@@ -53,3 +54,37 @@
         </div>
     </div>
     <!-- Navbar End -->
+    <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 120px">
+        <h1 class="font-weight-semi-bold text-uppercase mb-3">Admin Page</h1>
+        <div class="d-inline-flex">
+            <!-- <p class="m-0"><a href="">Home</a></p> -->
+            <button type="button" class="btn btn-primary"><a
+                    style="color: #562723; text-decoration: none;" href="/admin/editUser"> Edit
+                    User</a></button>
+            <p class="m-0 px-2">_</p>
+            <!-- <p class="m-0">Shopping Cart</p> -->
+            <button type="button" class="btn btn-primary"><a
+                    style="color: #562723; text-decoration: none;" href="/admin/addProducts"> Add
+                    Products</a></button>
+            <p class="m-0 px-2">_</p>
+            <button type="button" class="btn btn-primary"><a
+                    style="color: #562723; text-decoration: none;" href="/admin/manageProducts"> Manage
+                    Products</a></button>
+            <p class="m-0 px-2">_</p>
+            <button type="button" class="btn btn-primary"><a
+                    style="color: #562723; text-decoration: none;" href="/admin/addcategories"> Add
+                    Categories</a></button>
+            <p class="m-0 px-2">_</p>
+            <button type="button" class="btn btn-primary"><a
+                    style="color: #562723; text-decoration: none;" href="/admin/cat-sel?id=all">
+                    Orders</a></button>
+            <p class="m-0 px-2">_</p>
+            <button type="button" class="btn btn-primary"><a
+                    style="color: #562723; text-decoration: none;" href="/admin/manageCoupon">Manage
+                    Coupon</a></button>
+            <p class="m-0 px-2">_</p>
+            <button type="button" class="btn btn-primary"><a
+                    style="color: #562723; text-decoration: none;" href="/admin/salesReport">Sales
+                    Report</a></button>
+        </div>
+    </div>
