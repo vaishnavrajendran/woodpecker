@@ -56,31 +56,33 @@
         <div class="row px-xl-5">
             <div class="col-lg-8">
                 <div class="mb-4">
+                   <% if(address!=null){%>
                     <h4 class="font-weight-semi-bold mb-4">Billing Address</h4>
                     <div class="row">
+                        
                         <div class="col-md-6 form-group">
                             <label>First Name</label>
-                            <input class="form-control" type="text" placeholder="" name="fname">
+                            <input class="form-control" type="text" value="<%=address.fname%>" placeholder="" name="fname">
                         </div>
                         <div class="col-md-6 form-group">
                             <label>Last Name</label>
-                            <input class="form-control" type="text" placeholder="" name="lname">
+                            <input class="form-control" type="text" value="<%=address.lname%>" placeholder="" name="lname">
                         </div>
                         <div class="col-md-6 form-group">
                             <label>E-mail</label>
-                            <input class="form-control" type="email" placeholder="" name="email">
+                            <input class="form-control" type="email" value="<%=address.email%>" placeholder="" name="email">
                         </div>
                         <div class="col-md-6 form-group">
                             <label>Mobile No</label>
-                            <input class="form-control" type="text" placeholder="" name="mno">
+                            <input class="form-control" type="text" value="<%=address.mno%>" placeholder="" name="mno">
                         </div>
                         <div class="col-md-6 form-group">
                             <label>Address Line 1</label>
-                            <input class="form-control" type="text" placeholder="" name="address1">
+                            <input class="form-control" type="text" value="<%=address.address1%>" placeholder="" name="address1">
                         </div>
                         <div class="col-md-6 form-group">
                             <label>Address Line 2</label>
-                            <input class="form-control" type="text" placeholder="" name="address2">
+                            <input class="form-control" type="text" value="<%=address.address2%>" placeholder="" name="address2">
                         </div>
                         <div class="col-md-6 form-group">
                             <label>Country</label>
@@ -93,83 +95,103 @@
                         </div>
                         <div class="col-md-6 form-group">
                             <label>City</label>
-                            <input class="form-control" type="text" placeholder="" name="city">
+                            <input class="form-control" type="text" value="<%=address.city%>" placeholder="" name="city">
                         </div>
                         <div class="col-md-6 form-group">
                             <label>State</label>
-                            <input class="form-control" type="text" placeholder="" name="state">
+                            <input class="form-control" type="text" value="<%=address.state%>" placeholder="" name="state">
                         </div>
                         <div class="col-md-6 form-group">
                             <label>ZIP Code</label>
-                            <input class="form-control" type="text" placeholder="" name="zip">
+                            <input class="form-control" type="text" value="<%=address.zip%>" placeholder="" name="zip">
                         </div>
-                
-                        <div class="col-md-12 form-group">
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="shipto">
-                                <label class="custom-control-label" for="shipto"  data-toggle="collapse" data-target="#shipping-address">Ship to different address</label>
+                    </div>
+                    <%}else{%>
+                        <h4 class="font-weight-semi-bold mb-4">Billing Address</h4>
+                        <div class="row">
+                            
+                            <div class="col-md-6 form-group">
+                                <label>First Name</label>
+                                <input class="form-control" type="text" placeholder="" name="fname">
                             </div>
+                            <div class="col-md-6 form-group">
+                                <label>Last Name</label>
+                                <input class="form-control" type="text" placeholder="" name="lname">
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label>E-mail</label>
+                                <input class="form-control" type="email" placeholder="" name="email">
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label>Mobile No</label>
+                                <input class="form-control" type="text" placeholder="" name="mno">
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label>Address Line 1</label>
+                                <input class="form-control" type="text" placeholder="" name="address1">
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label>Address Line 2</label>
+                                <input class="form-control" type="text" placeholder="" name="address2">
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label>Country</label>
+                                <select class="custom-select">
+                                    <option selected>India</option>
+                                    <option>United States</option>
+                                    <option>Albania</option>
+                                    <option>Algeria</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label>City</label>
+                                <input class="form-control" type="text" placeholder="" name="city">
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label>State</label>
+                                <input class="form-control" type="text" placeholder="" name="state">
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label>ZIP Code</label>
+                                <input class="form-control" type="text" placeholder="" name="zip">
+                            </div>
+                    
                         </div>
-                    </div>
-                
+                   
+                        <%}%>
                 </div>
-                <div class="collapse mb-4" id="shipping-address">
-                    <h4 class="font-weight-semi-bold mb-4">Shipping Address</h4>
-                    <div class="row">
-                        <div class="col-md-6 form-group">
-                            <label>First Name</label>
-                            <input class="form-control" type="text" placeholder="John">
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label>Last Name</label>
-                            <input class="form-control" type="text" placeholder="Doe">
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label>E-mail</label>
-                            <input class="form-control" type="text" placeholder="example@email.com">
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label>Mobile No</label>
-                            <input class="form-control" type="text" placeholder="+123 456 789">
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label>Address Line 1</label>
-                            <input class="form-control" type="text" placeholder="123 Street">
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label>Address Line 2</label>
-                            <input class="form-control" type="text" placeholder="123 Street">
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label>Country</label>
-                            <select class="custom-select">
-                                <option selected>United States</option>
-                                <option>Afghanistan</option>
-                                <option>Albania</option>
-                                <option>Algeria</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label>City</label>
-                            <input class="form-control" type="text" placeholder="New York">
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label>State</label>
-                            <input class="form-control" type="text" placeholder="New York">
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label>ZIP Code</label>
-                            <input class="form-control" type="text" placeholder="123">
-                        </div>
-                    </div>
-                </div>
+
             </div>
+            
             <div class="col-lg-4">
                 <div class="card border-secondary mb-5">
                     <div class="card-header bg-secondary border-0">
                         <h4 class="font-weight-semi-bold m-0">Order Total</h4>
                     </div>
                     <div class="card-body">
+                        <% if(address1.length>=0){
+                                                    for(let i=0;i<address1.length;i++){ %>
+                                                        <a style="text-decoration: none;" href="/checkout?id=<%=address1[i]._id%>">
+                                                            
+                                                            
+                                                                <h3 class="card-title">Billing Address<%[i+1]%>
+                                                                </h3><!-- End .card-title -->
+                                                                <p>
+                                                                    <%=address1[i].fname%>
+                                                                    <%=address1[i].lname%><br>
+                                                                    <%=address1[i].email%>,<br>
+                                                                    <%=address1[i].mno%><br>
+                                                                    <%=address1[i].address1%><br>
+                                                                    <%=address1[i].address2 %>,
+                                                                    <%=address1[i].city%><br>
+                                                                    <%=address1[i].state%>
+                                                                    ,PIN:<%=address1[i].zip%>
+                                                                    
+                                                                </p>
+                                                            
+                                                         </a>
+
+                                                        <% } } %>
                         <h5 class="font-weight-medium mb-3">Products</h5>
                         <%if(cart.length>0){%>
                         <%for(let i=1;i<=cart.length;i++){ %>
@@ -194,6 +216,11 @@
                             <h5 class="font-weight-bold">Total</h5>
                             <h5 class="font-weight-bold">₹<%=cartTotal+shipping%></h5>
                         </div>
+                        <div class="d-flex justify-content-between mt-2">
+                            <p class="font-weight-bold" style="color: red;">You Saved</p>
+                            <p class="font-weight-bold" style="color: red;" > <%=discountAmount%> </p>
+                        </div>
+                        
                     </div>
                 </div>
                 <div class="card border-secondary mb-5">

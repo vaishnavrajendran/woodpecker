@@ -86,26 +86,8 @@ const adminHome = async(req,res) => {
         let salesCount = [];
         for(let key of productDetails){
             productNames.push(key.pname);
-            salesCount.push('0');
+            salesCount.push(key.qty);
         }
-        let orderHistorys = [];
-        orderDocs = await Order.find()
-        for(let key of orderDocs){
-            let populatedDetail = await key.populate('product.productID')
-            orderHistorys.push(populatedDetail)
-        }
-        for(let k=0;k<orderHistorys.length;k++){
-            for(let l=0;l<orderHistorys[k].product.length;l++){
-                    let fetchedCategorys = orderHistorys[k].product[l].productID.pname;
-                    let isExisting = productNames.findIndex(category =>{
-                    return category === fetchedCategorys;
-                })
-                salesCount[isExisting]++
-            }
-        }
-        console.log(salesCount);
-        console.log(productNames);
-        
         res.render('adminPage',{isLoggedin:req.session.adminId,name:categoryNames,count:categoryCount,sales:salesCount,names:productNames})
         } else {
             res.redirect('/admin/login')
@@ -389,32 +371,7 @@ const confirmReturn = async(req,res)=>{
 
 const salesReport = async(req,res)=>{
     const productData = await Product.find();
-    categoryData = await Category.find()
-        let productNames = [];
-        let salesCount = [];
-        for(let key of productData){
-            productNames.push(key.pname);
-            salesCount.push('0');
-        }
-        let orderHistorys = [];
-        orderDetail = await Order.find()
-        for(let key of orderDetail){
-            let populatedDetail = await key.populate('product.productID')
-            orderHistorys.push(populatedDetail)
-        }
-        for(let i=0;i<orderHistorys.length;i++){
-            for(let j=0;j<orderHistorys[i].product.length;j++){
-                    let fetchedCategorys = orderHistorys[i].product[j].productID.pname;
-                    let isExisting = productNames.findIndex(category =>{
-                    return category === fetchedCategorys;
-                })
-                salesCount[isExisting]++
-            }
-        }
-        console.log(salesCount);
-        console.log(productNames);
-        
-    res.render('salesReport',{product:productData,sales:salesCount})
+    res.render('salesReport',{product:productData})
 }
 
 module.exports = {
@@ -445,5 +402,5 @@ module.exports = {
     manageCoupon,
     viewDetails,
     confirmReturn,
-    salesReport
+    salesReport,
 }

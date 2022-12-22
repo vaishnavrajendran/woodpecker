@@ -8,16 +8,22 @@
     <title>WoodPecker</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
     integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script  src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.2/js/buttons.print.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/DataTables/datatables.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.css">
 </head>
-<body>
-    <div class="px-5">
-        <% if(isLoggedin) {
-           %>
-           <%- include('../partials/adminHeader') %>
-        <% } %>
-     </div>
-    <div class="container mt-5">
-    <table class="table align-middle mb-0 bg-white">
+<body>   
+    <div class="container mt-3">
+      <h3 style="margin-left: 40%;">Sales Report</h3>
+      <form action="/admin">
+        <button class="pb-1" type="submit">Go Back</button>
+      </form>
+    <table id="myTable" class="table align-middle mb-0 bg-white">
         <thead class="bg-light">
           <tr>
             <th>Product</th>
@@ -51,14 +57,7 @@
             </td>
             <td>
                 <div>
-                    <input type="hidden" value="<%sales%>" id="sales">
-                    <script type="text/javascript">
-                        const sales = document.getElementById('sales');
-                        console.log(sales,'1');
-                        const salesArray = sales.value.split(',');
-                        console.log(salesArray,'2');
-                    </script>
-                    <p class="text-muted mb-0"><%= product[i-1].qty %></p>
+                    <p class="text-muted mb-0 ml-3"><%= product[i-1].qty %></p>
                 </div>
             </td>
             <td>
@@ -71,5 +70,16 @@
         </tbody>
       </table>
       </div>
+      <script>
+        $(document).ready(function() {
+        $('#myTable').DataTable( {
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ]
+        } );
+    } )
+        </script>
+
 </body>
 </html>

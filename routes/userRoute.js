@@ -52,7 +52,7 @@ userRoute.post('/updateQuantity',userController.updateQuantity)
 
 userRoute.post('/postCheckout',userController.postCheckout)
 
-userRoute.get('/orderPlaced',userController.ordersuccesful)
+userRoute.get('/orderPlaced',userController.ordersuccesful) 
 
 userRoute.get('/paypal',userController.paypal)
 
@@ -77,5 +77,11 @@ userRoute.get('/userDeleteWishlist',userController.userDeleteWishlist)
 userRoute.post('/returnOrder',userController.returnOrder)
 
 userRoute.get('/thanks',userController.orderConfirmation)
+
+userRoute.post('/cancelOrder',userController.cancelOrder)
+
+userRoute.post('/addAddress',userController.addAddress)
+
+
 
 module.exports = userRoute

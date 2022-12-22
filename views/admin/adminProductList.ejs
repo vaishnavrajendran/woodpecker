@@ -24,6 +24,15 @@
 
     <!-- Customized Bootstrap Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.2/js/buttons.print.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/DataTables/datatables.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.css">
 </head>
 
 <body>
@@ -32,22 +41,23 @@
 
     <!-- Page Header Start -->
     <div class="container-fluid bg-secondary mb-3">
-        <% if(isLoggedin) {
-            %>
+        <% if(isLoggedin) { %>
             <%- include('../partials/adminHeader') %>
-         <% } %>
-        <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 120px">
-            
-            <div class="d-inline-flex">
-                <!-- <p class="m-0"><a href="">Home</a></p> -->
-                <button type="button" class="btn btn-primary"><a style="color: #562723; text-decoration: none;"
-                        href="/admin/editUser"> Edit User</a></button>
-                <p class="m-0 px-2">_</p>
-                <!-- <p class="m-0">Shopping Cart</p> -->
-                <button type="button" class="btn btn-primary"><a style="color: #562723; text-decoration: none;"
-                        href="/admin/addProducts"> Add Products</a></button>
-            </div>
-        </div>
+                <% } %>
+                    <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 120px">
+
+                        <div class="d-inline-flex">
+                            <!-- <p class="m-0"><a href="">Home</a></p> -->
+                            <button type="button" class="btn btn-primary"><a
+                                    style="color: #562723; text-decoration: none;" href="/admin/editUser"> Edit
+                                    User</a></button>
+                            <p class="m-0 px-2">_</p>
+                            <!-- <p class="m-0">Shopping Cart</p> -->
+                            <button type="button" class="btn btn-primary"><a
+                                    style="color: #562723; text-decoration: none;" href="/admin/addProducts"> Add
+                                    Products</a></button>
+                        </div>
+                    </div>
     </div>
     <!-- Page Header End -->
 
@@ -56,7 +66,7 @@
     <div class="container-fluid pt-5">
         <div class="row px-xl-5 align-items-center justify-content-center">
             <div class="col-lg-10 table-responsive mb-5">
-                <table class="table table-bordered text-center mb-0">
+                <table id="myTable" class="table table-bordered text-center mb-0">
                     <thead class="bg-secondary text-dark">
                         <tr>
                             <th>No</th>
@@ -98,8 +108,11 @@
                                         <%=product[i-1].pquantity %>
                                     </td>
                                     <td>
-                                        <a style="text-decoration:none;" href="/admin/editProduct?id=<%=product[i-1]._id%>">Edit</a> <br>
-                                        <a onclick="return confirm('Do you want tot delete')" style="text-decoration:none;" href="/admin/deleteProduct?id=<%=product[i-1]._id%>">Delete</a>
+                                        <a style="text-decoration:none;"
+                                            href="/admin/editProduct?id=<%=product[i-1]._id%>">Edit</a> <br>
+                                        <a onclick="return confirm('Do you want tot delete')"
+                                            style="text-decoration:none;"
+                                            href="/admin/deleteProduct?id=<%=product[i-1]._id%>">Delete</a>
                                     </td>
                                 </tr>
                                 <% } %>
@@ -108,6 +121,16 @@
                 </table>
             </div>
 
+            <script>
+                $(document).ready(function () {
+                    $('#myTable').DataTable({
+                        dom: 'Bfrtip',
+                        buttons: [
+                            'copy', 'csv', 'excel', 'pdf', 'print'
+                        ]
+                    });
+                })
+            </script>
 
 
 

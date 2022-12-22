@@ -37,12 +37,9 @@
    
 </head>
 <body>
-  <div class="px-5">
-    <% if(isLoggedin) {
-       %>
-       <%- include('../partials/adminHeader') %>
-    <% } %>
- </div>
+  <form class="p-5" action="/admin">
+    <button type="submit" style="background-color: #b3d1d9;" class="btn"> GO Back</button>
+    </form>
   <div class="container mt-4 col-lg-5">
     <div class="ml-auto pb-5">
       <h3>Add Categories</h3>

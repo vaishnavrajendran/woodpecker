@@ -115,7 +115,7 @@
 								        <a class="nav-link" id="tab-address-link" data-toggle="tab" href="#tab-address" role="tab" aria-controls="tab-address" aria-selected="false">ADDRESS</a>
 								    </li>
 								    <li class="nav-item">
-								        <a class="nav-link" id="tab-account-link" data-toggle="tab" href="#tab-account" role="tab" aria-controls="tab-account" aria-selected="false">ACCOUNT DETAILS</a>
+								        <a class="nav-link" id="tab-account-link" data-toggle="tab" href="#tab-account" role="tab" aria-controls="tab-account" aria-selected="false">Add Address</a>
 								    </li>
 								    <li class="nav-item">
 								        <a class="nav-link" href="/logout">SIGN OUT</a>
@@ -141,19 +141,31 @@
                                                   <thead class="thead-dark">
                                               <tr>
                                                 <th scope="col" class="text-center">Date</th>
-                                                <th scope="col" >Payment Type</th>
+                                                <th scope="col">Details</th>
+                                                <th scope="col">Payment Type</th>
                                                 <th scope="col">Amount</th>
                                                 <th scope="col">Status</th>
+                                                <th scope="col">Cancel</th>
                                                 <th scope="col">Return</th>
                                                 <th scope="col">Details</th>
                                               </tr>
                                             </thead>
                                            <% for(let i=1;i<=order.length;i++) { %>
                                               <tr>
-                                                <td><h6><%=order[i-1].createdAt %></h6></td>
+                                                <td><h6><%=order[i-1].createdAt.toDateString() %></h6></td>
+                                                <td><form action="/orderDetails?id=<%=order[i-1]._id%>" method="post">
+                                                    <button type="submit">Details</button> 
+                                                    </form></td>
                                                 <td><h6><%=order[i-1].payment %></h6></td>
                                                 <td><h6><%=order[i-1].totalPrice %></h6></td>
                                                 <td><h6><%=order[i-1].status %></h6></td>
+                                                <%if(order[i-1].status!='delivered'||order[i-1].status=='returned'||order[i-1].status=='returnPending'){ %>
+                                                <form action="/cancelOrder?id=<%=order[i-1]._id%>" method="post">
+                                                    <td><button type="submit" >Cancel</button></td>    
+                                                    </form>
+                                                <%}if(order[i-1].status=='cancelled'){ %>
+                                                    <td><h6>Cancelled</h6></td>
+                                                    <%}%>
                                                 <%if(order[i-1].status=='delivered'){ %>
                                                     <form action="/returnOrder?id=<%=order[i-1]._id%>" method="post">
                                                     <td><button type="submit" >Apply</button></td>    
@@ -177,70 +189,67 @@
 								    	<p>The following addresses will be used on the checkout page by default.</p>
 
 								    	<div class="row">
-								    		<div class="col-lg-6">
-								    			<div class="card card-dashboard">
-                                                    <% if(user.length>=0){
-                                                        for(let i=1;i<=1;i++){ %>
+								    		<div class="col-lg-6 p-2">
+                                                <% if(address.length>=0){
+                                                for(let i=0;i<address.length;i++){ %>
+								    		<div class="card card-dashboard ">
 								    				<div class="card-body">
-								    					<h3 class="card-title">Billing Address</h3><!-- End .card-title -->
-														<p><%=user[i-1].fname%><br>
-														User Company<br>
-														<%=user[i-1].address1%><br>
-														<%=user[i-1].city%>,<%=user[i-1].state%><br>
-														<%=user[i-1].mno%><br>
-														<%=user[i-1].email%><br>
+								    					<h3 class="card-title">Billing Address<%[i+1]%></h3><!-- End .card-title -->
+														<p><%=address[i].fname%> <%=address[i].lname%><br>
+                                                        <%=address[i].email%>,<br> <%=address[i].mno%><br>
+														<%=address[i].address1%><br>
+														<%=address[i].address2 %>, <%=address[i].city%><br>
+                                                        <%=address[i].state%>,PIN:<%=address[i].zip%>
 														<a href="#">Edit <i class="icon-edit"></i></a></p>
 								    				</div><!-- End .card-body -->
-                                                    <% } } %>
+                                                    </div>
 								    			</div><!-- End .card-dashboard -->
-								    		</div><!-- End .col-lg-6 -->
-
-								    		<div class="col-lg-6">
-								    			<div class="card card-dashboard">
-								    				<div class="card-body">
-								    					<h3 class="card-title">Shipping Address</h3><!-- End .card-title -->
-
-														<p>You have not set up this type of address yet.<br>
-														<a href="#">Edit <i class="icon-edit"></i></a></p>
-								    				</div><!-- End .card-body -->
-								    			</div><!-- End .card-dashboard -->
-								    		</div><!-- End .col-lg-6 -->
-                                            
+                                                <% } } %>
+								    		</div><!-- End .col-lg-6 -->                                    
 								    	</div><!-- End .row -->
 								    </div><!-- .End .tab-pane -->
 
 								    <div class="tab-pane fade" id="tab-account" role="tabpanel" aria-labelledby="tab-account-link">
-								    	<form action="#">
+								    	<form action="/addAddress" method="post">
 			                				<div class="row">
 			                					<div class="col-sm-6">
 			                						<label>First Name *</label>
-			                						<input type="text" class="form-control" required>
+			                						<input name="fname" type="text" class="form-control" required>
 			                					</div><!-- End .col-sm-6 -->
 
 			                					<div class="col-sm-6">
 			                						<label>Last Name *</label>
-			                						<input type="text" class="form-control" required>
+			                						<input name="lname" type="text" class="form-control" required>
 			                					</div><!-- End .col-sm-6 -->
 			                				</div><!-- End .row -->
 
-		            						<label>Display Name *</label>
-		            						<input type="text" class="form-control" required>
-		            						<small class="form-text">This will be how your name will be displayed in the account section and in reviews</small>
+		            						<label>Email *</label>
+		            						<input name="email" type="email" class="form-control" required>
+		            		
 
-		                					<label>Email address *</label>
-		        							<input type="email" class="form-control" required>
+		                					<label>Mobile No*</label>
+		        							<input type="text" name="mno" class="form-control" required>
 
-		            						<label>Current password (leave blank to leave unchanged)</label>
-		            						<input type="password" class="form-control">
+		            						<label>Address 1</label>
+		            						<input name="address" type="text" class="form-control">
 
-		            						<label>New password (leave blank to leave unchanged)</label>
-		            						<input type="password" class="form-control">
+		            						<label>Address 2</label>
+		            						<input name="address2" type="text" class="form-control">
 
-		            						<label>Confirm new password</label>
-		            						<input type="password" class="form-control mb-2">
+		            						<label>Country</label>
+		            						<input name="country" type="text" class="form-control">
+
+                                            <label>City</label>
+		            						<input name="city" type="text" class="form-control">
+
+                                            <label>State</label>
+		            						<input name="state" type="text" class="form-control">
+
+                                            <label>Zip Code</label>
+		            						<input name="zip" type="text" class="form-control">
 
 		                					<button type="submit" class="btn btn-outline-primary-2">
-			                					<span>SAVE CHANGES</span>
+			                					<span>Add Address</span>
 			            						<i class="icon-long-arrow-right"></i>
 			                				</button>
 			                			</form>
