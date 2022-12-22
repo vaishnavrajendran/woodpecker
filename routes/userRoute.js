@@ -56,7 +56,7 @@ userRoute.get('/orderPlaced',userController.ordersuccesful)
 
 userRoute.get('/paypal',userController.paypal)
 
-userRoute.get('/userDashboard',userController.userDashboard)
+userRoute.get('/userDashboard',auth.isLogin ,userController.userDashboard)
 
 userRoute.post('/orderDetails',userController.orderDetails)
 

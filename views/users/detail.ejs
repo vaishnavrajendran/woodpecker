@@ -28,6 +28,10 @@
     <!--Image Zoom-->
     <script src="https://unpkg.com/js-image-zoom@0.7.0/js-image-zoom.js" type="application/javascript"></script>
 
+    <!--sweet alert-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </head>
 
 <body>
@@ -168,10 +172,10 @@
                                                 </form>
                                             </div>
                                             <div class="d-flex align-items-center mb-4 pt-2 card-footer d-flex justify-content-between bg-light border" style="width: 150px;">
-                                                <a href="/addToCart?id=<%= product[i-1]._id %>"
+                                                <button onclick="addToCart('<%= product[i-1]._id %>')"
                                                             class="btn btn-sm text-dark p-0"><i
                                                                 class="fas fa-shopping-cart text-primary mr-1"></i>Add
-                                                            To Cart</a>
+                                                            To Cart</button>
                                             </div>
                                             <div class="d-flex pt-2">
                                                 <p class="text-dark font-weight-medium mb-0 mr-2">Share on:</p>
@@ -309,10 +313,10 @@
                                                             class="btn btn-sm text-dark p-0"><i
                                                                 class="fas fa-eye text-primary mr-1"></i>View
                                                             Detail</a>
-                                                        <a href="/addToCart?id=<%= productCar[i-1]._id %>"
+                                                            <button onclick="addToCart('<%= productCar[i-1]._id %>')"
                                                             class="btn btn-sm text-dark p-0"><i
                                                                 class="fas fa-shopping-cart text-primary mr-1"></i>Add
-                                                            To Cart</a>
+                                                            To Cart</button>
                                                     </div>
                                                 </div>
                                                 <% } } %>
@@ -344,6 +348,65 @@
                             <script src="mail/contact.js"></script>
                             <!-- Template Javascript -->
                             <script src="js/main.js"></script>
+
+                            <script>
+                                function addToCart(productId) {
+                                    $.ajax({
+                                        url: '/addToCart?id=' + productId,
+                                        method: 'GET',
+                                        success: function (response) {
+                                            if (response.status) {
+                                                Swal.fire({
+                                                    position: 'centre',
+                                                    icon: 'success',
+                                                    title: 'Product is added to the cart',
+                                                    showConfirmButton: false,
+                                                    timer: 1500,
+                                                });
+                                                let count = $('#cart-count').html();
+                                                count = parseInt(count) + 1;
+                                                $('#cart-count').html(count);
+                                            } else {
+                                                Swal.fire({
+                                                    position: 'center',
+                                                    icon: 'error',
+                                                    title: 'Please LOGIN',
+                                                    showConfirmButton: false,
+                                                    timer: 1500,
+                                                });
+                                            }
+                                        },
+                                    });
+                                }
+                                function addToWishlist(productId) {
+                                    $.ajax({
+                                        url: '/addToWishlist?id=' + productId,
+                                        method: 'get',
+                                        success: (response) => {
+                                            if (response.status) {
+                                                Swal.fire({
+                                                    position: 'centre',
+                                                    icon: 'success',
+                                                    title: 'Added to wishlist',
+                                                    showConfirmButton: false,
+                                                    timer: 1500,
+                                                });
+                                                let count = $('#wish-count').html();
+                                                count = parseInt(count);
+                                                $('#wish-count').html(count);
+                                            } else {
+                                                Swal.fire({
+                                                    position: 'center',
+                                                    icon: 'error',
+                                                    title: 'Please LOGIN',
+                                                    showConfirmButton: false,
+                                                    timer: 1500,
+                                                });
+                                            }
+                                        },
+                                    });
+                                }
+                                </script>
 
 </body>
 

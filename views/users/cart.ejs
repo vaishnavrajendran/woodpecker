@@ -55,8 +55,6 @@
         </div>
     </div>
     <!-- Page Header End -->
-
-
     <!-- Cart Start -->
     <div class="container-fluid pt-5">
         <div class="row px-xl-5">
@@ -126,7 +124,7 @@
                         <%if(discountAmount>0){%>
                         <div class="d-flex justify-content-between mb-3 pt-1">
                             <h6 class="font-weight-medium">You Saved</h6>
-                            <h6 class="font-weight-medium">₹<%=discountAmount%></h6>
+                            <h6 class="font-weight-medium">₹<%=discountAmount.toFixed(2)%></h6>
                         </div>
                         <%}else{%>
                             <div class="d-flex justify-content-between mb-3 pt-1">

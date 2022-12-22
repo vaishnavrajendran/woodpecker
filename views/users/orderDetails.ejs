@@ -2,7 +2,6 @@
 <html lang="en">
 
 
-<!-- molla/dashboard.html  22 Nov 2019 10:03:13 GMT -->
 
 <head>
     <meta charset="UTF-8">
@@ -10,11 +9,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>WoodPecker</title>
     <link href="img/titleicon1.png" rel="icon">
-    <meta name="keywords" content="HTML5 Template">
-    <meta name="description" content="Molla - Bootstrap eCommerce Template">
+    <meta name="keywords" content="WoodPecker">
+    <meta name="description" content="WoodPecker">
     <meta name="author" content="p-themes">
-    <!-- Favicon -->
-    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/icons/apple-touch-icon.png">
+    
     
     <link rel="manifest" href="assets/images/icons/site.html">
     <link rel="mask-icon" href="assets/images/icons/safari-pinned-tab.svg" color="#666666">
@@ -160,7 +158,7 @@
                                                         <div
                                                             class="col-md-2 text-center d-flex justify-content-center align-items-center">
                                                             <p class="text-muted mb-0 small">
-                                                                <%=cart[i-1].pquantity %>
+                                                                <%=cart[i-1].quantity %>
                                                             </p>
                                                         </div>
                                                         <div
@@ -202,8 +200,13 @@
                                                 <div class="d-flex justify-content-between pt-2">
                                                     <p class="fw-bold mb-0">Order Details</p>
                                                     <p class="text-muted mb-0"><span class="fw-bold me-4">Total </span>
-                                                        ₹ <%=totalPrice %>
+                                                        ₹ <%=totalPrice.totalPrice %>
                                                     </p>
+                                                </div>
+                                                <div class=" justify-content pt-2">
+                                                <h5 class="text-muted mb-0" style="display: block;" ><%=address.fname%> <%=address.lname%>, </h5>
+                                                <h5 class="text-muted mb-0"style="display: block;"><%=address.address1%>, <%=address.city%>, </h5>
+                                                <h5 class="text-muted mb-0"style="display: block;"><%=address.zip%><br> </h5>
                                                 </div>
 
                                                 <div class="d-flex justify-content-between pt-2">
@@ -228,7 +231,7 @@
                                         class="d-flex align-items-center justify-content-end text-white text-uppercase mb-0">
                                         Total
                                         paid- <span class="h3 mb-0 ms-2">
-                                            ₹ <%=totalPrice %>
+                                            ₹ <%=totalPrice.totalPrice %>
                                         </span></h6>
                                 </div>
                             </div>

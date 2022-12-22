@@ -226,11 +226,18 @@ const userCart = async (req, res) => {
             { userID: req.session.userId }).populate('product.productID')
         if (cartFetch) {
             productData = await Cart.findOne({ userID: req.session.userId }).populate('product.productID');
-            const totalPrice = productData.product.reduce((acc, curr) => {
-                return acc + (curr.productID.price * curr.quantity)
-            }, 0);
-            productData.totalPrice = totalPrice;
-            await productData.save();
+            if(productData){
+                console.log(productData.product);
+                const totalPrice = productData.product.reduce((acc, curr) => {
+                    console.log(curr.productID.price);
+                    console.log(curr.quantity);
+                    return acc + (curr.productID.price * curr.quantity)
+                },0);
+                console.log(totalPrice,'1');
+                productData.totalPrice = totalPrice;
+                console.log(totalPrice,'2');
+                await productData.save();
+            }
             console.log('couponUsed',req.session.coupon.used);
             if (req.session.couponTotal < productData.totalPrice && req.session.couponTotal != 0 && req.session.coupon.used == 1) {
                 console.log('1');
@@ -537,7 +544,6 @@ const postCheckout = async (req, res) => {
     req.session.currentOrder=orders._id;
     const order = await Order.findById({_id:req.session.currentOrder})
     const productDetails = await Product.find({isAvailable:0})
-        console.log(order.product,'type');
         for(let i=0;i<productDetails.length;i++){
             for(let j=0;j<order.product.length;j++){
              if(productDetails[i]._id.equals(order.product[j].productID)){
@@ -545,17 +551,17 @@ const postCheckout = async (req, res) => {
              }    
             }productDetails[i].save()
          }
-    req.session.coupon.used = 0;
+    req.session.coupon.used = 0; 
     req.session.detailsAmount=req.session.discountedAmount
     req.session.discountedAmount=0;
-    console.log(req.session.currentOrder,'11');
     const userCoupon = await Coupon.updateOne({ name: req.session.coupon.name }, { $push: { usedBy: req.session.userId } })
     if (req.body.payment == 'cod') {
         const delCart = await Cart.findOneAndDelete({userID:req.session.userId})
         await Order.findOneAndUpdate({ userID: req.session.userId }, { status: 'billed' })
         const orderData = await Order.findOne({_id:req.session.currentOrder }).populate('product.productID')
         const forTotal = await Order.findOne({ userID: req.session.userId })
-        res.render('orderPlaced', { cart: orderData.product, totalprice: req.session.couponTotal,discountAmount:req.session.detailsAmount })
+        const addressFetch = await Order.findOne({_id:req.session.currentOrder })
+        res.render('orderPlaced', { cart: orderData.product, totalprice: req.session.couponTotal,discountAmount:req.session.detailsAmount,address:addressFetch })
     } else if (req.body.payment == 'paypal') {
         const delCart = await Cart.findOneAndDelete({userID:req.session.userId})
         res.redirect('/paypal')
@@ -591,8 +597,9 @@ const userDashboard = async (req, res) => {
 const orderDetails = async (req, res) => {
     const orderId = req.query.id
     cartDetails = await Order.findOne({ _id: orderId }).populate('product.productID')
-    console.log('12',req.session.couponTotal);
-    res.render('orderDetails', { cart: cartDetails.product, totalPrice:req.session.couponTotal })
+    fetchAddress = await Order.findById({_id:orderId})
+    console.log(fetchAddress);
+    res.render('orderDetails', { cart: cartDetails.product, totalPrice:fetchAddress,address:fetchAddress})
 }
 
 const sendMessage = function (mobile, res) {
