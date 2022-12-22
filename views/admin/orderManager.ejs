@@ -94,10 +94,13 @@
                             </h6>
                         </td>
                         <td>
-                            <h6>
+                            <h6><%if(orders[i-1].status=='pending'){%>
                                 <form action="/admin/confirm-order?id=<%=orders[i-1]._id %>" method="post">
                                     <td><button type="submit" class="btn-primary">Confirm</button></td>
                                 </form>
+                                <%}else{%>
+                                    <td></td>
+                                    <%}%>
                             </h6>
                         </td>
                         <td>

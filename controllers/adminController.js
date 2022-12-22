@@ -303,7 +303,7 @@ const orderManager = async (req, res) => {
     try {
         const qstatus=req.query.id
         const Orders = await Order.find()
-        res.render('orderManager', {isLoggedin:req.session.userId,orders:Orders, orderStatus:qstatus})
+        res.render('orderManager', {isLoggedin:req.session.adminId,orders:Orders, orderStatus:qstatus})
     } catch (error) {
         console.log(error.message);
     }
@@ -322,11 +322,12 @@ const viewDetails = async(req,res)=>{
 }
 
 const confirmOrder= async(req,res)=>{
-    const id=req.query.id
+    const id=req.query.id 
    const orderData= await Order.findById({_id:id})
+   console.log(orderData);
    orderData.status="confirmed"
    await orderData.save();
-   res.redirect('/admin/ordermanager')
+   res.redirect('/admin/cat-sel?id=confirmed')
 }
 
 const deliverOrder= async(req,res)=>{
@@ -334,12 +335,12 @@ const deliverOrder= async(req,res)=>{
    const orderData= await Order.findById({_id:id})
    orderData.status="delivered"
    await orderData.save();
-   res.redirect('/admin/ordermanager')
+   res.redirect('/admin/cat-sel?id=delivered')
 }
 
 const deleteOrder = async(req,res)=>{
    await Order.findByIdAndDelete({_id:req.query.id})
-   res.redirect('/admin/ordermanager')
+   res.redirect('/admin/cat-sel?id=all')
 }
 
 const addCoupon = (req,res)=>{
@@ -366,7 +367,7 @@ const confirmReturn = async(req,res)=>{
    const orderData= await Order.findById({_id:id})
    orderData.status="returned"
    await orderData.save();
-   res.redirect('/admin/ordermanager')
+   res.redirect('/admin/cat-sel?id=returned')
 }
 
 const salesReport = async(req,res)=>{
