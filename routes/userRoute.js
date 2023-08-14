@@ -32,8 +32,6 @@ userRoute.post('/login',userController.userPostLogin)
 
 userRoute.post('/register',userController.userPostRegister)
 
-//userRoute.get('/home',userController.userHome)
-
 userRoute.get('/logout',userController.userLogout)
 
 userRoute.get('/cart',auth.isLogin,userController.userCart)

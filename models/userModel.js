@@ -19,7 +19,6 @@ const userSchema = mongoose.Schema({
     },
     image:{
     type:String,
-    //required:true     
     },
     password:{
         type:String,
@@ -37,21 +36,5 @@ const userSchema = mongoose.Schema({
         type:String
     }]
 });
-
-// userSchema.methods.addToCart = function (product) {
-//     const cart = this.cart
-//     const isExisting = cart.item.findIndex(objInItems => {
-//         return new String(objInItems.productId).trim() == new String(product._id).trim()
-//     })
-//     if(isExisting >=0){
-//         cart.item[isExisting].qty +=1
-//     }else{
-//         cart.item.push({productId:product._id,
-//         qty:1})
-//     }
-//     cart.totalPrice += product.price
-//     console.log("User in schema:",this);
-//     return this.save()
-// }
 
 module.exports = mongoose.model('User',userSchema);

@@ -14,10 +14,6 @@ app.use((req,res,next)=>{
     next()
 });
 
-// app.use(function (req, res) {
-//     res.status(404).redirect("/");
-//   });
-
 //for user routes
 const userRoute = require('./routes/userRoute')
 app.use('/', userRoute)

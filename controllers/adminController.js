@@ -12,18 +12,6 @@ const Order = require('../models/checkoutModel')
 const Coupon = require('../models/couponModel');
 const { orderDetails } = require('./userController');
 
-
-
-// const storage = multer.diskStorage({
-//     destination: './public/productImages',
-//     filename: (req, file, cb) => {
-//         cb(null, file.fieldname + '_' + Date.now() + path.extname(file.originalname));
-//     }
-// });
-// const upload = multer({
-//     storage: storage
-// }).fields([{ name: 'pimage',maxCount:3}])
-
 let storage= multer.diskStorage({
     destination:function(req,files,cb){
         cb(null,'public/productImages')
@@ -34,18 +22,6 @@ let storage= multer.diskStorage({
     }
 })
 const store= multer({storage:storage})
-
-// const storage = multer.diskStorage({
-//     destination: './public/productImages',
-//     filename: (req, file, cb) => {
-//         cb(null, file.fieldname + '_' + Date.now() + path.extname(file.originalname));
-//     }
-// });
-// const upload = multer({
-//     storage: storage
-// }).array('pimage[]');
-
-
 
 const securePassword = async(password) => {
     try {
@@ -131,9 +107,7 @@ const adminPost = async(req,res) => {
                     res.render('adminlogin', { message: "Email and password is incorrect" })
                 } else {
                     userSession=req.session;
-                    // userSession.userId=userData._id;
                     req.session.adminId=userData._id;
-                    console.log(req.session.adminId, "22");
                     isLoggedin = req.session.adminId;
                     res.redirect('/admin')
                 }
@@ -324,7 +298,6 @@ const viewDetails = async(req,res)=>{
 const confirmOrder= async(req,res)=>{
     const id=req.query.id 
    const orderData= await Order.findById({_id:id})
-   console.log(orderData);
    orderData.status="confirmed"
    await orderData.save();
    res.redirect('/admin/cat-sel?id=confirmed')
@@ -376,7 +349,6 @@ const salesReport = async(req,res)=>{
 }
 
 module.exports = {
-    // upload,
     store,
     adminHome,
     adminPage,

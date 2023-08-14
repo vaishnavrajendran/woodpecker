@@ -40,7 +40,6 @@
                                                 data-sdk-integration-source="integrationbuilder"></script>
                                             <script>
                                                 const total = document.getElementById('total')
-                                                console.log('type:',typeof(total.value),' value:',total.value);
                                                 
                                                 const paypalButtonsComponent = paypal.Buttons({
                                                     // optional styling for buttons
@@ -72,7 +71,6 @@
                                                     onApprove: (data, actions) => {
                                                         const captureOrderHandler = (details) => {
                                                             const payerName = details.payer.name.given_name;
-                                                            console.log('Transaction completed');
                                                             window.location.replace("http://thewoodpecker.shop/thanks")
                                                         };
 

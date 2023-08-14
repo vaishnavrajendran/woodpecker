@@ -56,10 +56,8 @@
                 <script type="text/javascript">
                     const name = document.getElementById('name');
                     const nameArray = name.value.split(',');
-                    console.log(nameArray);
                     const count = document.getElementById('count');
                     const countArray = count.value.split(',');
-                    console.log(countArray);
                     const pop = document.getElementById('myChart');
                     new Chart(pop, {
                         type: 'pie',
@@ -86,7 +84,6 @@
             <script type="text/javascript">
                 const sales = document.getElementById('sales');
                 const salesArray = sales.value.split(',');
-                console.log(salesArray,'typeis',typeof(salesArray));
                 const names = document.getElementById('names');
                 const namesArray = names.value.split(',');
                 const ctx1 = document.getElementById('myPieChart');
