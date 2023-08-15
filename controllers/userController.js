@@ -151,7 +151,11 @@ const userPostLogin = async (req, res) => {
         const passwordMatch = await bcrypt.compare(password, userData.password);
         if (passwordMatch) {
             if (userData.isVerified === 0) {
-                res.render('login', { message: "Please verify your mail" });
+                // removed otp validation
+                // res.render('login', { message: "Please verify your mail" });
+                req.session.userId = userData._id;
+                isLoggedin = req.session.userId;
+                res.redirect('/');
             } else {
                 try {
                     req.session.userId = userData._id;

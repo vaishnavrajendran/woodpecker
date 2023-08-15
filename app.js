@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
-mongoose.connect('mongodb+srv://abhy1522:changeme12345@keybounce.abkmpmd.mongodb.net/test');
+require('dotenv').config();
+mongoose.connect(process.env.MONGO_URI);
 
 const express = require('express');
 const app = express();

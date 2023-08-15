@@ -1,16 +1,16 @@
 const express = require('express')
 const adminRoute = express()
 const adminController = require('../controllers/adminController')
-const config = require('../config/config')
 const session = require('express-session')
 const userRoute = require('./userRoute')
 const adminAuth = require('../middlewares/adminAuth')
+require('dotenv').config();
 
 adminRoute.set('view engine', 'ejs')
 adminRoute.set('views', './views/admin')
 adminRoute.use('/', express.static('public'))
 
-adminRoute.use(session({ secret: config.sessionSecret }))
+adminRoute.use(session({ secret: process.env.sessionSecret }))
 
 adminRoute.use(express.json());
 adminRoute.use(express.urlencoded({ extended: true }))

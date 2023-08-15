@@ -3,11 +3,11 @@ const userController = require('../controllers/userController')
 const userRoute = express()
 const path = require('path')
 const auth = require('../middlewares/auth');
-
-const config = require('../config/config')
 const session = require('express-session')
-userRoute.use(session({secret:config.sessionSecret}))
+require('dotenv').config();
 
+
+userRoute.use(session({secret:process.env.sessionSecret}))
 
 userRoute.set('view engine', 'ejs')
 userRoute.set('views', './views/users')
