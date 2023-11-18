@@ -87,7 +87,7 @@ const userIndex = async (req, res) => {
                 { pdesc: { $regex: '.*' + search + '.*', $options: 'i' } }
             ]
         }).countDocuments();
-
+        console.log(">>>>>>>>>", req.session.userId);
         let sub = 500;
         res.render('index', {
             isLoggedin:req.session.userId,
@@ -151,7 +151,7 @@ const userPostLogin = async (req, res) => {
         const passwordMatch = await bcrypt.compare(password, userData.password);
         if (passwordMatch) {
             if (userData.isVerified === 0) {
-                // removed otp validation
+                // removed otp validation //fast2sms plan expired
                 // res.render('login', { message: "Please verify your mail" });
                 req.session.userId = userData._id;
                 isLoggedin = req.session.userId;
@@ -197,7 +197,7 @@ const userPostRegister = async (req, res) => {
                     // sendMessage(req.body.mno)
                     // res.render('otp')
                     isLoggedin = req.session.userId;
-                    res.render('registration');
+                    res.redirect('/')
                 } else {
                     res.render('registration', { message: "Your registration has been failed" })
                 }
@@ -258,10 +258,10 @@ const updateQuantity = async (req, res) => {
     productData = await Cart.findOne({ userID: req.session.userId }).populate('product.productID');
     indexNum = await productData.product.findIndex(index => index._id == Id);
     productData.product[indexNum].quantity = qty;
-    await productData.save();
+    const data = await productData.save();
     const forTotal = await Cart.findOne({ userID:req.session.userId })
     forTotal.totalPrice = 0;
-    res.redirect('/cart');
+    return res.json(data)
 }
 
 const wishlist = async (req, res) => {
