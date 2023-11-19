@@ -13,6 +13,7 @@ const Address = require('../models/addressModel')
 const { render } = require('../routes/userRoute');
 const { log } = require('debug/src/browser');
 const { ObjectID } = require('bson');
+const e = require('express');
 
 let sess = false || {};
 let USERID, randomOTP;
@@ -253,8 +254,13 @@ const userCart = async (req, res) => {
 }
 
 const updateQuantity = async (req, res) => {
-    Id = req.query.id;
-    qty = req.body.quantity;
+    let Id = req.query.id;
+    let qty
+    if(req.body.action === 'add'){
+        qty = +req.body.quantity + 1
+    } else {
+        qty = +req.body.quantity - 1
+    }
     productData = await Cart.findOne({ userID: req.session.userId }).populate('product.productID');
     indexNum = await productData.product.findIndex(index => index._id == Id);
     productData.product[indexNum].quantity = qty;

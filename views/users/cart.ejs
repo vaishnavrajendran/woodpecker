@@ -123,7 +123,7 @@
                   </div>
                   <!-- </form> -->
                 </td>
-                <td class="align-middle text-center">
+                <td id="total<%=cart[i-1]._id%>" class="align-middle text-center">
                   ₹<%=cart[i-1].productID.price*cart[i-1].quantity%>
                 </td>
                 <td class="align-middle text-center">
@@ -163,7 +163,7 @@
             </div>
             <div class="card-body">
               <div class="d-flex justify-content-between mb-3 pt-1">
-                <h6 class="font-weight-medium">Subtotal</h6>
+                <h6 id="subtotal" class="font-weight-medium">Subtotal</h6>
                 <h6 class="font-weight-medium">₹<%=totalCart%></h6>
               </div>
               <%if(discountAmount>0){%>
@@ -225,11 +225,13 @@
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ quantity: quantity }),
+            body: JSON.stringify({ quantity, action }),
           }
         );
         const data = await response.json();
-        console.log("DATA", response, data);
+        console.log("DATA", data);
+        let totalPrice = document.getElementById(`total${id}`)
+        totalPrice.textContent = data.product[0].quantity * data.product[0].productID.price
       }
     </script>
 
