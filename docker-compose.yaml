@@ -1,0 +1,8 @@
+version: "3"
+services:
+  db:
+    image: mongo
+  app:
+    image: my-node-app
+    ports: 
+      - 13000:3000
