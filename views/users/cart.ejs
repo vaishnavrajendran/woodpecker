@@ -1,168 +1,239 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="utf-8">
+  <head>
+    <meta charset="utf-8" />
     <title>WoodPecker</title>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="Free HTML Templates" name="keywords">
-    <meta content="Free HTML Templates" name="description">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta content="Free HTML Templates" name="keywords" />
+    <meta content="Free HTML Templates" name="description" />
 
     <!-- Favicon -->
-    <link href="img/titleicon1.png" rel="icon">
+    <link href="img/titleicon1.png" rel="icon" />
 
     <!-- Google Web Fonts -->
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet"> 
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
 
     <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css"
+      rel="stylesheet"
+    />
 
     <!-- Libraries Stylesheet -->
-    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet" />
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="css/style.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet" />
     <style>
-        input::-webkit-outer-spin-button,
-        input::-webkit-inner-spin-button {
+      input::-webkit-outer-spin-button,
+      input::-webkit-inner-spin-button {
         -webkit-appearance: none;
-    margin: 0;
-}
+        margin: 0;
+      }
     </style>
-</head>
+  </head>
 
-<body>
+  <body>
     <!-- Topbar Start -->
-      <% if(isLoggedin) {
-        %>
-        <%- include('../partials/userHeader') %>
-        <% }else { %>
-        <%- include('../partials/normalHeader') %>
-    <% } %>
+    <% if(isLoggedin) { %> <%- include('../partials/userHeader') %> <% }else {
+    %> <%- include('../partials/normalHeader') %> <% } %>
     <!-- Navbar End -->
 
     <% if(cart.length>0) { %>
     <!-- Page Header Start -->
     <div class="container-fluid bg-secondary mb-5">
-        <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 200px">
-            <h1 class="font-weight-semi-bold text-uppercase mb-3">Shopping Cart</h1>
-            <div class="d-inline-flex">
-                <p class="m-0"><a href="">Home</a></p>
-                <p class="m-0 px-2">-</p>
-                <p class="m-0">Shopping Cart</p>
-            </div>
+      <div
+        class="d-flex flex-column align-items-center justify-content-center"
+        style="min-height: 200px"
+      >
+        <h1 class="font-weight-semi-bold text-uppercase mb-3">Shopping Cart</h1>
+        <div class="d-inline-flex">
+          <p class="m-0"><a href="">Home</a></p>
+          <p class="m-0 px-2">-</p>
+          <p class="m-0">Shopping Cart</p>
         </div>
+      </div>
     </div>
     <!-- Page Header End -->
     <!-- Cart Start -->
     <div class="container-fluid pt-5">
-        <div class="row px-xl-5">
-            <div class="col-lg-8 table-responsive mb-5">
-                <table class="table table-bordered  mb-0">
-                    <thead class="bg-secondary text-dark">
-                        <tr>
-                            <th>Products</th>
-                            <th>Price</th>
-                            <th>Quantity</th>
-                            <th>Total</th>
-                            <th>Remove</th>
-                        </tr>
-                    </thead>
-                    <tbody class="align-middle">
-                  
-                      <% for(let i=1;i<=cart.length; i++) { %>
-                         <tr>
-                             <td class="align-middle"><img src="./productImages/<%=cart[i-1].productID.pimage %>" alt="" style="width: 50px;">
-                                 <%=cart[i-1].productID.pname %></td>
-                             <td class="align-middle text-center">₹<%=cart[i-1].productID.price %></td>
-                             <td class="align-middle">
-                                
-                                <form action="/updateQuantity?id=<%=cart[i-1]._id%>" method="post"> 
-                                <div class="input-group quantity mx-auto" style="width: 100px;">
-                                     <div class="input-group-btn">
-                                         <button class="btn btn-sm btn-primary btn-minus">
-                                             <i class="fa fa-minus"></i>
-                                         </button>
-                                     </div>
-                                     <input type="number" name="quantity" class="form-control form-control-sm bg-secondary text-center"
-                                        min="1" max="10" value="<%=cart[i-1].quantity %>">
-                                     <div class="input-group-btn">
-                                         <button class="btn btn-sm btn-primary btn-plus">
-                                             <i class="fa fa-plus"></i>
-                                         </button>
-                                     </div>
-                                 </div>
-                                 </form>
-                             </td>
-                             <td class="align-middle text-center">₹<%=cart[i-1].productID.price*cart[i-1].quantity%></td>
-                             <td class="align-middle text-center"><form action="/deleteCart?id=<%=cart[i-1]._id %> " method="post"><button class="btn btn-sm btn-primary" type="submit"><i
-                                         class="fa fa-times"></i></button></form></td>
-                         </tr>
-                         <% }  %>
-                     </tbody>
-                </table>
-            </div>
-            <div class="col-lg-4">
-                <form class="mb-5" action="/addCoupon">
-                    <div class="input-group">
-                        <input type="text" class="form-control p-4" name="offer" placeholder="TRYNEW20,DIWALI30,OFFER50">
-                        <div class="input-group-append">
-                            <button type="submit" class="btn btn-primary">Apply Coupon</button>
-                        </div>
+      <div class="row px-xl-5">
+        <div class="col-lg-8 table-responsive mb-5">
+          <table class="table table-bordered mb-0">
+            <thead class="bg-secondary text-dark">
+              <tr>
+                <th>Products</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total</th>
+                <th>Remove</th>
+              </tr>
+            </thead>
+            <tbody class="align-middle">
+              <% for(let i=1;i<=cart.length; i++) { %>
+              <tr>
+                <td class="align-middle">
+                  <img
+                    src="./productImages/<%=cart[i-1].productID.pimage %>"
+                    alt=""
+                    style="width: 50px"
+                  />
+                  <%=cart[i-1].productID.pname %>
+                </td>
+                <td class="align-middle text-center">
+                  ₹<%=cart[i-1].productID.price %>
+                </td>
+                <td class="align-middle">
+                  <!-- <form
+                    action="/updateQuantity?id=<%=cart[i-1]._id%>"
+                    method="post"
+                  > -->
+                  <div
+                    class="input-group quantity mx-auto"
+                    style="width: 100px"
+                  >
+                    <div class="input-group-btn">
+                      <button
+                        class="btn btn-sm btn-primary btn-minus"
+                        onclick="updateInDB(event, 'minus', '<%=cart[i-1]._id%>', '<%=cart[i-1].quantity %>')"
+                      >
+                        <i class="fa fa-minus"></i>
+                      </button>
                     </div>
-                </form>
-                <div class="card border-secondary mb-5">
-                    <div class="card-header bg-secondary border-0">
-                        <h4 class="font-weight-semi-bold m-0">Cart Summary</h4>
+                    <input
+                      type="number"
+                      name="quantity"
+                      class="form-control form-control-sm bg-secondary text-center"
+                      min="1"
+                      max="10"
+                      value="<%=cart[i-1].quantity %>"
+                    />
+                    <div class="input-group-btn">
+                      <button
+                        class="btn btn-sm btn-primary btn-plus"
+                        onclick="updateInDB(event, 'add', '<%=cart[i-1]._id%>', '<%=cart[i-1].quantity %>')"
+                      >
+                        <i class="fa fa-plus"></i>
+                      </button>
                     </div>
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between mb-3 pt-1">
-                            <h6 class="font-weight-medium">Subtotal</h6>
-                            <h6 class="font-weight-medium">₹<%=totalCart%></h6>
-                        </div>
-                        <%if(discountAmount>0){%>
-                        <div class="d-flex justify-content-between mb-3 pt-1">
-                            <h6 class="font-weight-medium">You Saved</h6>
-                            <h6 class="font-weight-medium">₹<%=discountAmount.toFixed(2)%></h6>
-                        </div>
-                        <%}else{%>
-                            <div class="d-flex justify-content-between mb-3 pt-1">
-                            <h6 class="font-weight-medium">You Saved</h6>
-                            <h6 class="font-weight-medium">₹0</h6>
-                        </div>
-                        <%}%>
-                        <div class="d-flex justify-content-between">
-                            <h6 class="font-weight-medium">Shipping</h6>
-                            <h6 class="font-weight-medium">₹<%=shipping%></h6>
-                        </div>
-                    </div>
-                <form action="/checkout">
-                    <div class="card-footer border-secondary bg-transparent">
-                        <div class="d-flex justify-content-between mt-2">
-                            <h5 class="font-weight-bold">Total</h5>
-                            <h5 class="font-weight-bold">₹<%=totalCart+shipping%></h5>
-                        </div>
-                        <button class="btn btn-block btn-primary my-3 py-3">Proceed To Checkout</button>
-                    </div>
-                </form>
-                </div>
-            </div>
+                  </div>
+                  <!-- </form> -->
+                </td>
+                <td id="total<%=cart[i-1]._id%>" class="align-middle text-center">
+                  ₹<%=cart[i-1].productID.price*cart[i-1].quantity%>
+                </td>
+                <td class="align-middle text-center">
+                  <form
+                    action="/deleteCart?id=<%=cart[i-1]._id %> "
+                    method="post"
+                  >
+                    <button class="btn btn-sm btn-primary" type="submit">
+                      <i class="fa fa-times"></i>
+                    </button>
+                  </form>
+                </td>
+              </tr>
+              <% } %>
+            </tbody>
+          </table>
         </div>
+        <div class="col-lg-4">
+          <form class="mb-5" action="/addCoupon">
+            <div class="input-group">
+              <input
+                type="text"
+                class="form-control p-4"
+                name="offer"
+                placeholder="TRYNEW20,DIWALI30,OFFER50"
+              />
+              <div class="input-group-append">
+                <button type="submit" class="btn btn-primary">
+                  Apply Coupon
+                </button>
+              </div>
+            </div>
+          </form>
+          <div class="card border-secondary mb-5">
+            <div class="card-header bg-secondary border-0">
+              <h4 class="font-weight-semi-bold m-0">Cart Summary</h4>
+            </div>
+            <div class="card-body">
+              <div class="d-flex justify-content-between mb-3 pt-1">
+                <h6 id="subtotal" class="font-weight-medium">Subtotal</h6>
+                <h6 class="font-weight-medium">₹<%=totalCart%></h6>
+              </div>
+              <%if(discountAmount>0){%>
+              <div class="d-flex justify-content-between mb-3 pt-1">
+                <h6 class="font-weight-medium">You Saved</h6>
+                <h6 class="font-weight-medium">
+                  ₹<%=discountAmount.toFixed(2)%>
+                </h6>
+              </div>
+              <%}else{%>
+              <div class="d-flex justify-content-between mb-3 pt-1">
+                <h6 class="font-weight-medium">You Saved</h6>
+                <h6 class="font-weight-medium">₹0</h6>
+              </div>
+              <%}%>
+              <div class="d-flex justify-content-between">
+                <h6 class="font-weight-medium">Shipping</h6>
+                <h6 class="font-weight-medium">₹<%=shipping%></h6>
+              </div>
+            </div>
+            <form action="/checkout">
+              <div class="card-footer border-secondary bg-transparent">
+                <div class="d-flex justify-content-between mt-2">
+                  <h5 class="font-weight-bold">Total</h5>
+                  <h5 class="font-weight-bold">₹<%=totalCart+shipping%></h5>
+                </div>
+                <button class="btn btn-block btn-primary my-3 py-3">
+                  Proceed To Checkout
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
     <!-- Cart End -->
     <%}else{%>
-        <div class="text-center">
-            <img src="img/cart2.png" alt="">
-        </div>
-        <%}%>
+    <div class="text-center">
+      <img src="img/cart2.png" alt="" />
+    </div>
+    <%}%>
 
     <!-- Footer Start -->
     <%- include('../partials/userFooter') %>
     <!-- Footer End -->
 
     <!-- Back to Top -->
-    <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
+    <a href="#" class="btn btn-primary back-to-top"
+      ><i class="fa fa-angle-double-up"></i
+    ></a>
+
+    <script>
+      async function updateInDB(event, action, id, quantity) {
+        event.preventDefault();
+        const response = await fetch(
+          `http://localhost:3000/updateQuantity?id=${id}`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ quantity, action }),
+          }
+        );
+        const data = await response.json();
+        console.log("DATA", data);
+        let totalPrice = document.getElementById(`total${id}`)
+        totalPrice.textContent = data.product[0].quantity * data.product[0].productID.price
+      }
+    </script>
 
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -176,6 +247,5 @@
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
-</body>
-
+  </body>
 </html>

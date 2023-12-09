@@ -1,85 +1,85 @@
-const express = require('express')
-const userController = require('../controllers/userController')
-const userRoute = express()
-const path = require('path')
-const auth = require('../middlewares/auth');
-const session = require('express-session')
-require('dotenv').config();
+const express = require("express");
+const userController = require("../controllers/userController");
+const userRoute = express();
+const auth = require("../middlewares/auth");
+const session = require("express-session");
+require("dotenv").config();
 
+userRoute.use(session({ secret: process.env.sessionSecret }));
 
-userRoute.use(session({secret:process.env.sessionSecret}))
+userRoute.set("view engine", "ejs");
+userRoute.set("views", "./views/users");
 
-userRoute.set('view engine', 'ejs')
-userRoute.set('views', './views/users')
+userRoute.use(express.json());
+userRoute.use(express.urlencoded({ extended: true }));
 
-userRoute.use(express.json())
-userRoute.use(express.urlencoded({extended:true}))
+let isLoggedin;
+isLoggedin = false;
 
-let isLoggedin
-isLoggedin = false
+userRoute.get("/", userController.userIndex);
 
-userRoute.get('/',userController.userIndex)
+userRoute.get("/shop", userController.userShop);
 
-userRoute.get('/shop',userController.userShop)
+userRoute.get("/detail", userController.userDetail);
 
-userRoute.get('/detail',userController.userDetail)
+userRoute.get("/register", auth.isLogout, userController.userRegister);
 
-userRoute.get('/register',auth.isLogout,userController.userRegister)
+userRoute.get("/login", auth.isLogout, userController.userLogin);
 
-userRoute.get('/login',auth.isLogout,userController.userLogin)
+userRoute.post("/login", userController.userPostLogin);
 
-userRoute.post('/login',userController.userPostLogin)
+userRoute.post("/register", userController.userPostRegister);
 
-userRoute.post('/register',userController.userPostRegister)
+userRoute.get("/logout", userController.userLogout);
 
-userRoute.get('/logout',userController.userLogout)
+userRoute.get("/cart", auth.isLogin, userController.userCart);
 
-userRoute.get('/cart',auth.isLogin,userController.userCart)
+userRoute.get("/checkout", userController.userCheckout);
 
-userRoute.get('/checkout',userController.userCheckout)
+userRoute.get("/contact", userController.userContact);
 
-userRoute.get('/contact',userController.userContact)
+userRoute.get("/addToCart", auth.isLogin, userController.addToCart);
 
-userRoute.get('/addToCart',auth.isLogin,userController.addToCart)
+userRoute.post("/deleteCart", userController.deleteCart);
 
-userRoute.post('/deleteCart',userController.deleteCart)
+userRoute.get("/viewDetail", userController.viewDetail);
 
-userRoute.get('/viewDetail',userController.viewDetail)
+userRoute.post("/updateQuantity", userController.updateQuantity);
 
-userRoute.post('/updateQuantity',userController.updateQuantity)
+userRoute.post("/postCheckout", userController.postCheckout);
 
-userRoute.post('/postCheckout',userController.postCheckout)
+userRoute.get("/orderPlaced", userController.ordersuccesful);
 
-userRoute.get('/orderPlaced',userController.ordersuccesful) 
+userRoute.get("/paypal", userController.paypal);
 
-userRoute.get('/paypal',userController.paypal)
+userRoute.get("/userDashboard", auth.isLogin, userController.userDashboard);
 
-userRoute.get('/userDashboard',auth.isLogin ,userController.userDashboard)
+userRoute.post("/orderDetails", userController.orderDetails);
 
-userRoute.post('/orderDetails',userController.orderDetails)
+userRoute.post("/otp-validation", userController.validateUser);
 
-userRoute.post('/otp-validation',userController.validateUser)
+userRoute.get("/sel-categories", userController.selCategories);
 
-userRoute.get('/sel-categories',userController.selCategories)
+userRoute.get("/wishlist", auth.isLogin, userController.wishlist);
 
-userRoute.get('/wishlist',auth.isLogin,userController.wishlist)
+userRoute.get("/addToWishlist", userController.addToWishlist);
 
-userRoute.get('/addToWishlist',userController.addToWishlist)
+userRoute.get(
+  "/moveToCart",
+  userController.deleteWishlist,
+  userController.moveToCart
+);
 
-userRoute.get('/moveToCart',userController.deleteWishlist,userController.moveToCart)
+userRoute.get("/addCoupon", userController.addCoupon);
 
-userRoute.get('/addCoupon',userController.addCoupon)
+userRoute.get("/userDeleteWishlist", userController.userDeleteWishlist);
 
-userRoute.get('/userDeleteWishlist',userController.userDeleteWishlist)
+userRoute.post("/returnOrder", userController.returnOrder);
 
-userRoute.post('/returnOrder',userController.returnOrder)
+userRoute.get("/thanks", userController.orderConfirmation);
 
-userRoute.get('/thanks',userController.orderConfirmation)
+userRoute.post("/cancelOrder", userController.cancelOrder);
 
-userRoute.post('/cancelOrder',userController.cancelOrder)
+userRoute.post("/addAddress", userController.addAddress);
 
-userRoute.post('/addAddress',userController.addAddress)
-
-
-
-module.exports = userRoute
+module.exports = userRoute;
